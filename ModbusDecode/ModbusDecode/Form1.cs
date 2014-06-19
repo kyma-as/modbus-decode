@@ -36,5 +36,11 @@ namespace ModbusDecode
         {
             resultBox.Clear();
         }
+
+        private void buttonAbout_Click(object sender, EventArgs e)
+        {
+            AboutBox box = new AboutBox();
+            box.Show();
+        }
     }
 }
