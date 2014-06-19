@@ -30,6 +30,7 @@ namespace ModbusDecode
         public Nullable<int> StartAddress { get; private set; }
         public Nullable<int> RegisterCount { get; private set; }
         public int ByteCount { get; private set; }
+        public string Checksum { get; set; }
         public List<MdbusFloat> Values { get; private set; }
 
         public static MdbusMessage Decode(string message)
@@ -110,6 +111,12 @@ namespace ModbusDecode
                     startByte = 3;
                     break;
             }
+            if (hexValuesSplit.Length > 1)
+            {
+                mdbusMessage.Checksum = hexValuesSplit[hexValuesSplit.Length - 2] + hexValuesSplit[hexValuesSplit.Length - 1];
+            }
+                    
+            // convert all float values from hex string
             for (int i = startByte; (i - startByte < mdbusMessage.ByteCount) && (i < hexValuesSplit.Length - 3); i += 4)
             {
                 MdbusFloat mdbusFloat = new MdbusFloat();
@@ -170,6 +177,7 @@ namespace ModbusDecode
             {
                 strBuilder.AppendLine(string.Format("{0,-20}{1,5} (0x{1:X2})", "Byte Count:", ByteCount));
             }
+            strBuilder.AppendLine(string.Format("{0,-20}{1,5}", "Checksum:", Checksum));
             strBuilder.AppendFormat("Float Values ({0}):", Values.Count).AppendLine();
             var lineNumber = 1;
             foreach (var value in Values)
