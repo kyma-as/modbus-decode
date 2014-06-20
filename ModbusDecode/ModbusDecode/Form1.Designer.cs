@@ -1,6 +1,6 @@
 ﻿namespace ModbusDecode
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.txtInput = new System.Windows.Forms.TextBox();
             this.btnDecode = new System.Windows.Forms.Button();
             this.lblResult = new System.Windows.Forms.Label();
@@ -124,7 +124,7 @@
             this.buttonAbout.UseVisualStyleBackColor = true;
             this.buttonAbout.Click += new System.EventHandler(this.buttonAbout_Click);
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -139,8 +139,9 @@
             this.Controls.Add(this.txtInput);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(500, 350);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Modbus Decoder";
+            this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.MainForm_HelpRequested);
             this.ResumeLayout(false);
             this.PerformLayout();
 

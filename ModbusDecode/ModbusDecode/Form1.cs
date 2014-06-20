@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace ModbusDecode
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -38,6 +38,16 @@ namespace ModbusDecode
         }
 
         private void buttonAbout_Click(object sender, EventArgs e)
+        {
+            RequestHelp();
+        }
+
+        private void MainForm_HelpRequested(object sender, HelpEventArgs hlpevent)
+        {
+            RequestHelp();
+        }
+
+        private static void RequestHelp()
         {
             AboutBox box = new AboutBox();
             box.Show();
