@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.txtInput = new System.Windows.Forms.TextBox();
             this.btnDecode = new System.Windows.Forms.Button();
@@ -37,6 +38,7 @@
             this.resultBox = new System.Windows.Forms.RichTextBox();
             this.buttonClear = new System.Windows.Forms.Button();
             this.buttonAbout = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // txtInput
@@ -56,6 +58,8 @@
             this.btnDecode.Size = new System.Drawing.Size(75, 23);
             this.btnDecode.TabIndex = 1;
             this.btnDecode.Text = "Decode";
+            this.toolTip.SetToolTip(this.btnDecode, "Decodes the Modbus message in the input form.\r\nAll result will be added to the re" +
+        "sult window below");
             this.btnDecode.UseVisualStyleBackColor = true;
             this.btnDecode.Click += new System.EventHandler(this.btnDecode_Click);
             // 
@@ -88,6 +92,7 @@
             this.checkBoxModiconFloat.Size = new System.Drawing.Size(115, 17);
             this.checkBoxModiconFloat.TabIndex = 12;
             this.checkBoxModiconFloat.Text = "Use Modicon Float";
+            this.toolTip.SetToolTip(this.checkBoxModiconFloat, resources.GetString("checkBoxModiconFloat.ToolTip"));
             this.checkBoxModiconFloat.UseVisualStyleBackColor = true;
             this.checkBoxModiconFloat.CheckedChanged += new System.EventHandler(this.checkBoxModiconFloat_CheckedChanged);
             // 
@@ -157,6 +162,7 @@
         private System.Windows.Forms.RichTextBox resultBox;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonAbout;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
 
