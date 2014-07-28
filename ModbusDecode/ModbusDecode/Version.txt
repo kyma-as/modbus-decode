@@ -1,0 +1,7 @@
+﻿2014-07-28 1.0.2.0
+- Added Modbus address to the output for each float value to compare with KSP Modbus list
+
+2014-x-x 1.0.1.0
+- Change to output to a textbox to include more data
+- Add option to use 'Modicon Float' or not
+- Decode Function Code to show what registers we are reading or writing to

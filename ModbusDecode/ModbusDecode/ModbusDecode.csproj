@@ -107,6 +107,7 @@
   <ItemGroup>
     <Content Include="ModbusDecode ReadMe.txt" />
     <Content Include="modbus_logo.ico" />
+    <Content Include="Version.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

@@ -33,6 +33,15 @@ namespace ModbusDecode
         public string Checksum { get; set; }
         public List<MdbusFloat> Values { get; private set; }
 
+        // Declare Modbus register base addresses as consts.
+        // They are all off by 1, so reading Analog Input register 100 will
+        // readd address 30101.
+        public static readonly int ModbusCoilBaseAddress = 1;
+        public static readonly int ModbusContactsBaseAddress = 10001;
+        public static readonly int ModbusInputRegisterBaseAddress = 30001;
+        public static readonly int ModbusHoldingRegisterBaseAddress = 40001;
+
+
         public static MdbusMessage Decode(string message)
         {
             return MdbusMessage.Decode(message, true);
@@ -144,19 +153,30 @@ namespace ModbusDecode
         {
             StringBuilder strBuilder = new StringBuilder();
             strBuilder.AppendFormat("{0:D2} (0x{0:X2}) ", FunctionCode);
+            var baseAddress = 0;
             switch (FunctionCode)
             {
+                case 1:
+                    strBuilder.AppendLine("Read Coils");
+                    break;
                 case 3:
                     strBuilder.AppendLine("Read Holding Registers");
+                    baseAddress = ModbusHoldingRegisterBaseAddress;
                     break;
                 case 4:
                     strBuilder.AppendLine("Read Input Registers");
+                    baseAddress = ModbusInputRegisterBaseAddress;
                     break;
                 case 8:
                     strBuilder.AppendLine("Diagnostic");
                     break;
+                case 15:
+                    strBuilder.AppendLine("Write Multiple Coils");
+                    baseAddress = ModbusCoilBaseAddress;
+                    break;
                 case 16:
-                    strBuilder.AppendLine("Write Multiple Registers");
+                    strBuilder.AppendLine("Write Multiple Holding Registers");
+                    baseAddress = ModbusHoldingRegisterBaseAddress;
                     break;
                 default:
                     strBuilder.AppendLine("Unknown Function Code");
@@ -180,9 +200,18 @@ namespace ModbusDecode
             strBuilder.AppendLine(string.Format("{0,-20}{1,5}", "Checksum:", Checksum));
             strBuilder.AppendFormat("Float Values ({0}):", Values.Count).AppendLine();
             var lineNumber = 1;
+            var address = baseAddress + StartAddress;
             foreach (var value in Values)
             {
-                strBuilder.AppendLine(string.Format("{0,10:D3}: {1} -> {2} -> {3}", lineNumber++, value.RawString, value.FloatString, value.Value));
+                if (StartAddress.HasValue)
+                {
+                    strBuilder.AppendLine(string.Format("{0,10:D3} {1:D5}: {2} -> {3} -> {4}", lineNumber++, address, value.RawString, value.FloatString, value.Value));
+                    address += 2;
+                }
+                else
+                {
+                    strBuilder.AppendLine(string.Format("{0,10:D3}: {1} -> {2} -> {3}", lineNumber++, value.RawString, value.FloatString, value.Value));
+                }
             }
             return strBuilder.ToString();
         }
