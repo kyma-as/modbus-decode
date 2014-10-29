@@ -23,8 +23,16 @@ namespace ModbusDecode
         }
     }
 
+    enum ModbusMessageType
+    {
+        Unknown,
+        Transmit,
+        Receive
+    }
+
     class MdbusMessage
     {
+        public ModbusMessageType MessageType { get; private set; }
         public int SlaveId { get; private set; }
         public int FunctionCode { get; private set; }
         public Nullable<int> StartAddress { get; private set; }
@@ -76,10 +84,22 @@ namespace ModbusDecode
                 // TODO: create string array from text without spaces.
                 throw new ArgumentException("Given message string does not contain spaces. Must use a valid string from Mdbus Monitor log");
             }
-            string[] hexValuesSplit = message.Trim().Split(' ');
-
             MdbusMessage mdbusMessage = new MdbusMessage();
             mdbusMessage.Values = new List<MdbusFloat>();
+            // Check if there are RX or TX in beginning
+            mdbusMessage.MessageType = ModbusMessageType.Unknown;
+            if (message.Trim().StartsWith("RX"))
+            {
+                mdbusMessage.MessageType = ModbusMessageType.Receive;
+                message = message.Replace("RX", "");
+            }
+            else if (message.Trim().StartsWith("TX"))
+            {
+                mdbusMessage.MessageType = ModbusMessageType.Transmit;
+                message = message.Replace("TX", "");
+            }
+
+            string[] hexValuesSplit = message.Trim().Split(' ');
 
             if (hexValuesSplit.Length > 1)
             {
@@ -183,6 +203,14 @@ namespace ModbusDecode
                     break;
             }
             strBuilder.Append('-', 40).AppendLine();
+            if (MessageType == ModbusMessageType.Receive)
+            {
+                strBuilder.AppendLine(string.Format("{0,-20}{1}", "Message Type:", "Receive"));
+            }
+            else if (MessageType == ModbusMessageType.Transmit)
+            {
+                strBuilder.AppendLine(string.Format("{0,-20}{1}", "Message Type:", "Transmit"));
+            }
             strBuilder.AppendLine(string.Format("{0,-20}{1,5} (0x{1:X2})", "Slave ID:", SlaveId));
             strBuilder.AppendLine(string.Format("{0,-20}{1,5} (0x{1:X2})", "Function Code:", FunctionCode));
             if (StartAddress.HasValue)

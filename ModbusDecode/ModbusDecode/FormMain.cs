@@ -28,8 +28,15 @@ namespace ModbusDecode
 
         private void Decode()
         {
-            MdbusMessage mdbusMessage = MdbusMessage.Decode(txtInput.Text, checkBoxModiconFloat.Checked);
-            resultBox.Text = mdbusMessage.ToString() + resultBox.Text;
+            try
+            {
+                MdbusMessage mdbusMessage = MdbusMessage.Decode(txtInput.Text, checkBoxModiconFloat.Checked);
+                resultBox.Text = mdbusMessage.ToString() + resultBox.Text;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error decoding input string. Message:" + Environment.NewLine + e.Message, "Decoding Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
