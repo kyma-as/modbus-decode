@@ -40,6 +40,7 @@ namespace ModbusDecode
         public int ByteCount { get; private set; }
         public string Checksum { get; set; }
         public List<MdbusFloat> Values { get; private set; }
+        public string OriginalMessageString { get; private set; }
 
         // Declare Modbus register base addresses as consts.
         // They are all off by 1, so reading Analog Input register 100 will
@@ -86,6 +87,7 @@ namespace ModbusDecode
             }
             MdbusMessage mdbusMessage = new MdbusMessage();
             mdbusMessage.Values = new List<MdbusFloat>();
+            mdbusMessage.OriginalMessageString = message;
             // Check if there are RX or TX in beginning
             mdbusMessage.MessageType = ModbusMessageType.Unknown;
             if (message.Trim().StartsWith("RX"))
@@ -171,7 +173,13 @@ namespace ModbusDecode
 
         public override string ToString()
         {
+            return ToString(false);
+        }
+
+        public string ToString(bool includeOriginalMessage)
+        {
             StringBuilder strBuilder = new StringBuilder();
+            strBuilder.Append('-', 60).AppendLine();
             strBuilder.AppendFormat("{0:D2} (0x{0:X2}) ", FunctionCode);
             var baseAddress = 0;
             switch (FunctionCode)
@@ -202,7 +210,11 @@ namespace ModbusDecode
                     strBuilder.AppendLine("Unknown Function Code");
                     break;
             }
-            strBuilder.Append('-', 40).AppendLine();
+            strBuilder.Append('-', 60).AppendLine();
+            if (includeOriginalMessage)
+            {
+                strBuilder.AppendLine(string.Format("{0,-20}{1}", "Original Message:", OriginalMessageString));
+            }
             if (MessageType == ModbusMessageType.Receive)
             {
                 strBuilder.AppendLine(string.Format("{0,-20}{1}", "Message Type:", "Receive"));

@@ -22,8 +22,10 @@ To Decode what is received on Slave ID 1....
 
 You should get:
 
+------------------------------------------------------------
 04 (0x04) Read Input Registers
-----------------------------------------
+------------------------------------------------------------
+Original Message:   01 04 10 51 24 45 B7 19 71 3F 5F 19 F9 43 0B 59 D1 45 D2 70 B9
 Slave ID:               1 (0x01)
 Function Code:          4 (0x04)
 Byte Count:            16 (0x10)

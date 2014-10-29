@@ -31,7 +31,7 @@ namespace ModbusDecode
             try
             {
                 MdbusMessage mdbusMessage = MdbusMessage.Decode(txtInput.Text, checkBoxModiconFloat.Checked);
-                resultBox.Text = mdbusMessage.ToString() + resultBox.Text;
+                resultBox.Text = mdbusMessage.ToString(true) + resultBox.Text;
             }
             catch (Exception e)
             {
