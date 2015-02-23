@@ -107,6 +107,7 @@
   <ItemGroup>
     <Content Include="ModbusDecode ReadMe.txt" />
     <Content Include="modbus_logo.ico" />
+    <Content Include="ToDo.txt" />
     <Content Include="Version.txt" />
   </ItemGroup>
   <ItemGroup>
