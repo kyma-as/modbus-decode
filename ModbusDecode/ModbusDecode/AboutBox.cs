@@ -43,7 +43,7 @@ namespace ModbusDecode
 
         #region Assembly Attribute Accessors
 
-        public string AssemblyTitle
+        public static string AssemblyTitle
         {
             get
             {
@@ -60,7 +60,7 @@ namespace ModbusDecode
             }
         }
 
-        public string AssemblyVersion
+        public static string AssemblyVersion
         {
             get
             {
@@ -68,7 +68,7 @@ namespace ModbusDecode
             }
         }
 
-        public string AssemblyDescription
+        public static string AssemblyDescription
         {
             get
             {
@@ -81,7 +81,7 @@ namespace ModbusDecode
             }
         }
 
-        public string AssemblyProduct
+        public static string AssemblyProduct
         {
             get
             {
@@ -94,7 +94,7 @@ namespace ModbusDecode
             }
         }
 
-        public string AssemblyCopyright
+        public static string AssemblyCopyright
         {
             get
             {
@@ -107,7 +107,7 @@ namespace ModbusDecode
             }
         }
 
-        public string AssemblyCompany
+        public static string AssemblyCompany
         {
             get
             {

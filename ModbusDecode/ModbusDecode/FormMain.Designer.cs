@@ -49,9 +49,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtInput.Location = new System.Drawing.Point(42, 82);
             this.txtInput.Name = "txtInput";
-            this.txtInput.Size = new System.Drawing.Size(732, 20);
+            this.txtInput.Size = new System.Drawing.Size(741, 20);
             this.txtInput.TabIndex = 0;
-            this.txtInput.Text = "01 04 10 60 3A 46 33 69 89 44 57 33 CE 43 06 8B 59 3B 72 C4 8E ";
+            this.txtInput.Text = "RX 01 04 10 60 3A 46 33 69 89 44 57 33 CE 43 06 8B 59 3B 72 C4 8E ";
             // 
             // btnDecode
             // 
@@ -79,10 +79,10 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(39, 35);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(314, 26);
+            this.label1.Size = new System.Drawing.Size(338, 26);
             this.label1.TabIndex = 3;
             this.label1.Text = "Please enter the Modbus communication string as hex values.\r\nEnter bytes seperate" +
-    "d with space, like: 01 04 0B B8 00 08 73 CD";
+    "d with space, like: [RX] 01 04 0B B8 00 08 73 CD";
             // 
             // checkBoxModiconFloat
             // 
@@ -106,14 +106,14 @@
             this.resultBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.resultBox.Location = new System.Drawing.Point(42, 179);
             this.resultBox.Name = "resultBox";
-            this.resultBox.Size = new System.Drawing.Size(732, 384);
+            this.resultBox.Size = new System.Drawing.Size(741, 384);
             this.resultBox.TabIndex = 15;
             this.resultBox.Text = "";
             // 
             // buttonClear
             // 
             this.buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonClear.Location = new System.Drawing.Point(636, 153);
+            this.buttonClear.Location = new System.Drawing.Point(645, 153);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(138, 23);
             this.buttonClear.TabIndex = 16;
@@ -123,11 +123,14 @@
             // 
             // buttonAbout
             // 
-            this.buttonAbout.Location = new System.Drawing.Point(699, 12);
+            this.buttonAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAbout.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAbout.BackgroundImage")));
+            this.buttonAbout.Location = new System.Drawing.Point(706, 12);
             this.buttonAbout.Name = "buttonAbout";
-            this.buttonAbout.Size = new System.Drawing.Size(75, 23);
+            this.buttonAbout.Size = new System.Drawing.Size(77, 64);
             this.buttonAbout.TabIndex = 17;
-            this.buttonAbout.Text = "About";
+            this.toolTip.SetToolTip(this.buttonAbout, "Click here to get more information about how to use this \r\nprogram and sample Mod" +
+        "bus messages.");
             this.buttonAbout.UseVisualStyleBackColor = true;
             this.buttonAbout.Click += new System.EventHandler(this.buttonAbout_Click);
             // 

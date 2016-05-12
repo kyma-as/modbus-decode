@@ -14,6 +14,7 @@ namespace ModbusDecode
         public MainForm()
         {
             InitializeComponent();
+            Text += String.Format(" - Version {0}", AboutBox.AssemblyVersion);
         }
 
         private void checkBoxModiconFloat_CheckedChanged(object sender, EventArgs e)
@@ -59,6 +60,11 @@ namespace ModbusDecode
         {
             AboutBox box = new AboutBox();
             box.Show();
+        }
+
+        private void pictureBoxKymaLogo_DoubleClick(object sender, EventArgs e)
+        {
+            RequestHelp();
         }
     }
 }
