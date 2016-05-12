@@ -1,5 +1,5 @@
-﻿2016-05-11 1.0.4.0
-- Decode start address and register count for FC3 and FC4
+﻿2016-05-12 1.0.4.0
+- Decode request and respons differently
 - Support for Function Code 6
 
 2014-10-29 1.0.3.0
