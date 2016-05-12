@@ -50,6 +50,7 @@ namespace ModbusDecode
         public int FunctionCode { get; private set; }
         public Nullable<int> StartAddress { get; private set; }
         public Nullable<int> RegisterCount { get; private set; }
+        public Nullable<int> SingleRegisterValue { get; private set; }
         public int ByteCount { get; private set; }
         public string Checksum { get; set; }
         public List<MdbusFloat> Values { get; private set; }
@@ -96,6 +97,7 @@ namespace ModbusDecode
         /// 01 10 00 64 00 32 64 48 9C 1C B6 48 94 27 C8 48 98 95 47 48 87 F7 BD 42 AC 07 2B 42 AE 57 91 42 AC 89 5E 42 AF DE 29 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 45 C9 F0 4D 45 CA 95 4D 45 C9 23 FE 45 C9 64 DF 42 0A 66 66 42 0C CC CD 42 13 33 33 42 11 33 33 42 9E CC CD 9D A4 
         /// </example>
         /// <returns></returns>
+        /// 
         public static MdbusMessage Decode(string message, bool modiconFloat, ModbusMessageMode mode)
         {
             if (!message.Contains(' '))
@@ -134,11 +136,11 @@ namespace ModbusDecode
 
             string[] hexValuesSplit = message.Trim().Split(' ');
 
-            if (hexValuesSplit.Length > 1)
+            if (hexValuesSplit.Length > 0)
             {
                 mdbusMessage.SlaveId = Convert.ToInt32(hexValuesSplit[0], 16);
             }
-            if (hexValuesSplit.Length > 2)
+            if (hexValuesSplit.Length > 1)
             {
                 mdbusMessage.FunctionCode = Convert.ToInt32(hexValuesSplit[1], 16);
             }
@@ -149,6 +151,8 @@ namespace ModbusDecode
                 case 3:
                 case 4:
                     // Differs from receive and request!
+                    // RX 01 03 00 00 00 2C 44 17
+                    // TX 01 03 58 01 14 00 00 46 81 38 00 45 48 40 00 44 F1 80 00 42 47 99 9A 47 26 C9 00 47 1D 38 00 47 1D 3A 00 47 27 F8 00 43 82 F3 33 3F B3 33 33 43 2C 66 66 00 00 00 00 00 00 00 00 00 00 00 00 45 34 50 00 00 00 00 00 00 00 00 00 00 00 00 00 43 C9 80 00 41 49 99 9A 41 48 00 00 60 34 
                     if (mdbusMessage.MessageRole == ModbusMessageRole.Response)
                     {
                         if (hexValuesSplit.Length > 3)
@@ -170,6 +174,12 @@ namespace ModbusDecode
                         startByte = 6; // Not really. no data after this
                     }
 
+                    break;
+                case 6:
+                    // RX 01 06 00 00 02 FD 49 2B
+                    mdbusMessage.StartAddress = ConvertHexStringToInt(hexValuesSplit, 2, 2);
+                    mdbusMessage.SingleRegisterValue = ConvertHexStringToInt(hexValuesSplit, 4, 2);                   
+                    startByte = 6;
                     break;
                 case 16:
                     if (hexValuesSplit.Length > 4)
@@ -243,6 +253,14 @@ namespace ModbusDecode
                     strBuilder.AppendLine("Read Input Registers");
                     baseAddress = ModbusInputRegisterBaseAddress;
                     break;
+                case 5:
+                    strBuilder.AppendLine("Force Single Coil");
+                    baseAddress = ModbusCoilBaseAddress;
+                    break;
+                case 6:
+                    strBuilder.AppendLine("Preset Single Register");
+                    baseAddress = ModbusHoldingRegisterBaseAddress;
+                    break;
                 case 8:
                     strBuilder.AppendLine("Diagnostic");
                     break;
@@ -289,11 +307,16 @@ namespace ModbusDecode
             {
                 strBuilder.AppendLine(string.Format("{0,-20}{1,5} (0x{1:X4})", "Register Count:", RegisterCount));
             }
+            if (SingleRegisterValue.HasValue)
+            {
+                strBuilder.AppendLine(string.Format("{0,-20}{1,5} (0x{1:X4})", "Single Register Value:", SingleRegisterValue));
+            }
             if (ByteCount > 0)
             {
                 strBuilder.AppendLine(string.Format("{0,-20}{1,5} (0x{1:X2})", "Byte Count:", ByteCount));
             }
             strBuilder.AppendLine(string.Format("{0,-20}{1,5}", "Checksum:", Checksum));
+
             strBuilder.AppendFormat("Float Values ({0}):", Values.Count).AppendLine();
             var lineNumber = 1;
             var address = baseAddress + StartAddress;
@@ -311,6 +334,21 @@ namespace ModbusDecode
             }
             return strBuilder.ToString();
         }
+
+        private static Nullable<int> ConvertHexStringToInt(string[] hexvalues, int startIndex, int count)
+        {
+            string hexString = string.Empty;
+            if (hexvalues.Length > startIndex + count - 1)
+            {
+                for (int i = startIndex; i < startIndex + count; i++)
+                {
+                    hexString += hexvalues[i];
+                }
+                return Convert.ToInt32(hexString, 16);
+            }
+            return null;
+        }
+
 
     }
 }
