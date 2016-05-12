@@ -23,6 +23,11 @@ namespace ModbusDecode
         }
     }
 
+    enum ModbusMessageMode
+    {
+        Slave,
+        Master
+    }
     enum ModbusMessageType
     {
         Unknown,
@@ -30,9 +35,17 @@ namespace ModbusDecode
         Receive
     }
 
+    enum ModbusMessageRole
+    {
+        Request,
+        Response
+    }
+
     class MdbusMessage
     {
+        public ModbusMessageMode MessageMode { get; private set; }
         public ModbusMessageType MessageType { get; private set; }
+        public ModbusMessageRole MessageRole { get; private set; }
         public int SlaveId { get; private set; }
         public int FunctionCode { get; private set; }
         public Nullable<int> StartAddress { get; private set; }
@@ -53,7 +66,12 @@ namespace ModbusDecode
 
         public static MdbusMessage Decode(string message)
         {
-            return MdbusMessage.Decode(message, true);
+            return MdbusMessage.Decode(message, true, ModbusMessageMode.Slave);
+        }
+
+        public static MdbusMessage Decode(string message, bool modiconFloat)
+        {
+            return MdbusMessage.Decode(message, modiconFloat, ModbusMessageMode.Slave);
         }
 
         /// <summary>
@@ -78,7 +96,7 @@ namespace ModbusDecode
         /// 01 10 00 64 00 32 64 48 9C 1C B6 48 94 27 C8 48 98 95 47 48 87 F7 BD 42 AC 07 2B 42 AE 57 91 42 AC 89 5E 42 AF DE 29 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 45 C9 F0 4D 45 CA 95 4D 45 C9 23 FE 45 C9 64 DF 42 0A 66 66 42 0C CC CD 42 13 33 33 42 11 33 33 42 9E CC CD 9D A4 
         /// </example>
         /// <returns></returns>
-        public static MdbusMessage Decode(string message, bool modiconFloat)
+        public static MdbusMessage Decode(string message, bool modiconFloat, ModbusMessageMode mode)
         {
             if (!message.Contains(' '))
             {
@@ -88,6 +106,7 @@ namespace ModbusDecode
             MdbusMessage mdbusMessage = new MdbusMessage();
             mdbusMessage.Values = new List<MdbusFloat>();
             mdbusMessage.OriginalMessageString = message;
+            mdbusMessage.MessageMode = mode;
             // Check if there are RX or TX in beginning
             mdbusMessage.MessageType = ModbusMessageType.Unknown;
             if (message.Trim().StartsWith("RX"))
@@ -99,6 +118,18 @@ namespace ModbusDecode
             {
                 mdbusMessage.MessageType = ModbusMessageType.Transmit;
                 message = message.Replace("TX", "");
+            }
+            // If we are slave then a TX would be a request (from master) and RX would be a response
+            // If we are master, then a TX would be a request (from us) and RX would be a response
+            // By default we want to decode as response (we are slave and RX message is important)
+            mdbusMessage.MessageRole = ModbusMessageRole.Response;
+            if (mdbusMessage.MessageMode == ModbusMessageMode.Master && mdbusMessage.MessageType == ModbusMessageType.Transmit)
+            {
+                mdbusMessage.MessageRole = ModbusMessageRole.Request;
+            }
+            else if (mdbusMessage.MessageMode == ModbusMessageMode.Slave && mdbusMessage.MessageType == ModbusMessageType.Receive)
+            {
+                mdbusMessage.MessageRole = ModbusMessageRole.Request;
             }
 
             string[] hexValuesSplit = message.Trim().Split(' ');
@@ -117,11 +148,28 @@ namespace ModbusDecode
             {
                 case 3:
                 case 4:
-                    if (hexValuesSplit.Length > 3)
+                    // Differs from receive and request!
+                    if (mdbusMessage.MessageRole == ModbusMessageRole.Response)
                     {
-                        mdbusMessage.ByteCount = Convert.ToInt32(hexValuesSplit[2], 16);
+                        if (hexValuesSplit.Length > 3)
+                        {
+                            mdbusMessage.ByteCount = Convert.ToInt32(hexValuesSplit[2], 16);
+                        }
+                        startByte = 3;
                     }
-                    startByte = 3;
+                    else
+                    {
+                        if (hexValuesSplit.Length > 4)
+                        {
+                            mdbusMessage.StartAddress = Convert.ToInt32(hexValuesSplit[2] + hexValuesSplit[3], 16);
+                        }
+                        if (hexValuesSplit.Length > 6)
+                        {
+                            mdbusMessage.RegisterCount = Convert.ToInt32(hexValuesSplit[4] + hexValuesSplit[5], 16);
+                        }
+                        startByte = 6; // Not really. no data after this
+                    }
+
                     break;
                 case 16:
                     if (hexValuesSplit.Length > 4)
@@ -222,6 +270,14 @@ namespace ModbusDecode
             else if (MessageType == ModbusMessageType.Transmit)
             {
                 strBuilder.AppendLine(string.Format("{0,-20}{1}", "Message Type:", "Transmit"));
+            }
+            if (MessageRole == ModbusMessageRole.Request)
+            {
+                strBuilder.AppendLine(string.Format("{0,-20}{1}", "Message Role:", "Request"));
+            }
+            else if (MessageRole == ModbusMessageRole.Response)
+            {
+                strBuilder.AppendLine(string.Format("{0,-20}{1}", "Message Role:", "Response"));
             }
             strBuilder.AppendLine(string.Format("{0,-20}{1,5} (0x{1:X2})", "Slave ID:", SlaveId));
             strBuilder.AppendLine(string.Format("{0,-20}{1,5} (0x{1:X2})", "Function Code:", FunctionCode));

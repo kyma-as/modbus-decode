@@ -39,6 +39,8 @@
             this.buttonClear = new System.Windows.Forms.Button();
             this.buttonAbout = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.radioButtonSlave = new System.Windows.Forms.RadioButton();
+            this.radioButtonMaster = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // txtInput
@@ -129,11 +131,37 @@
             this.buttonAbout.UseVisualStyleBackColor = true;
             this.buttonAbout.Click += new System.EventHandler(this.buttonAbout_Click);
             // 
+            // radioButtonSlave
+            // 
+            this.radioButtonSlave.AutoSize = true;
+            this.radioButtonSlave.Checked = true;
+            this.radioButtonSlave.Location = new System.Drawing.Point(327, 122);
+            this.radioButtonSlave.Name = "radioButtonSlave";
+            this.radioButtonSlave.Size = new System.Drawing.Size(52, 17);
+            this.radioButtonSlave.TabIndex = 18;
+            this.radioButtonSlave.TabStop = true;
+            this.radioButtonSlave.Text = "Slave";
+            this.toolTip.SetToolTip(this.radioButtonSlave, resources.GetString("radioButtonSlave.ToolTip"));
+            this.radioButtonSlave.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonMaster
+            // 
+            this.radioButtonMaster.AutoSize = true;
+            this.radioButtonMaster.Location = new System.Drawing.Point(327, 145);
+            this.radioButtonMaster.Name = "radioButtonMaster";
+            this.radioButtonMaster.Size = new System.Drawing.Size(57, 17);
+            this.radioButtonMaster.TabIndex = 19;
+            this.radioButtonMaster.Text = "Master";
+            this.toolTip.SetToolTip(this.radioButtonMaster, resources.GetString("radioButtonMaster.ToolTip"));
+            this.radioButtonMaster.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(795, 575);
+            this.Controls.Add(this.radioButtonMaster);
+            this.Controls.Add(this.radioButtonSlave);
             this.Controls.Add(this.buttonAbout);
             this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.resultBox);
@@ -163,6 +191,8 @@
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonAbout;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.RadioButton radioButtonSlave;
+        private System.Windows.Forms.RadioButton radioButtonMaster;
     }
 }
 

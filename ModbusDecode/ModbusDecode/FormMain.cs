@@ -30,7 +30,8 @@ namespace ModbusDecode
         {
             try
             {
-                MdbusMessage mdbusMessage = MdbusMessage.Decode(txtInput.Text, checkBoxModiconFloat.Checked);
+                ModbusMessageMode mode = radioButtonMaster.Checked ? ModbusMessageMode.Master : ModbusMessageMode.Slave;
+                MdbusMessage mdbusMessage = MdbusMessage.Decode(txtInput.Text, checkBoxModiconFloat.Checked, mode);
                 resultBox.Text = mdbusMessage.ToString(true) + resultBox.Text;
             }
             catch (Exception e)

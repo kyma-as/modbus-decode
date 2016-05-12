@@ -1,4 +1,8 @@
-﻿2014-10-29 1.0.3.0
+﻿2016-05-11 1.0.4.0
+- Decode start address and register count for FC3 and FC4
+- Support for Function Code 6
+
+2014-10-29 1.0.3.0
 - Better error handling (show message on exception for bad input string)
 - Handle RX and TX in beginning of string
 - Added MessageType (receive or transmit) to object and print it out if know

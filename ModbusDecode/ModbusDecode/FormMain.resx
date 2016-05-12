@@ -120,12 +120,31 @@
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="checkBoxModiconFloat.ToolTip" xml:space="preserve">
     <value>Check this if Modicon Float is used. The least significant bytes are sent in the 
 first register and the most significant bytes in the second register.
 
 It will automatically decode the message when this checkbox is clicked.
 </value>
+  </data>
+  <data name="radioButtonSlave.ToolTip" xml:space="preserve">
+    <value>This is used to determine if a transmitted (TX) or received
+(RX) message is a request or a respons. This is needed to 
+decode the Modbus message properly
+
+A Slave that transmitts (TX) is responding
+A Slave receives (RX) a request</value>
+  </data>
+  <data name="radioButtonMaster.ToolTip" xml:space="preserve">
+    <value>This is used to determine if a transmitted (TX) or received
+(RX) message is a request or a respons. This is needed to 
+decode the Modbus message properly
+
+A Master that transmitts (TX) is requesting
+A Master receives (RX) a response</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
