@@ -2,6 +2,7 @@
 
 - Verify Checksum
 - Decode requests and other FCs better
+  - including error codes
 
 03 13:06:18.131 G  RX 01 10 00 AE 00 02 04 BD 62 03 C5 3D 4A 
 03 13:06:18.199 G  TX 01 10 00 AE 00 02 20 29 
