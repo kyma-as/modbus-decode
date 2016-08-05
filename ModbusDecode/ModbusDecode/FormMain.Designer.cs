@@ -137,12 +137,10 @@
             // radioButtonSlave
             // 
             this.radioButtonSlave.AutoSize = true;
-            this.radioButtonSlave.Checked = true;
             this.radioButtonSlave.Location = new System.Drawing.Point(327, 122);
             this.radioButtonSlave.Name = "radioButtonSlave";
             this.radioButtonSlave.Size = new System.Drawing.Size(52, 17);
             this.radioButtonSlave.TabIndex = 18;
-            this.radioButtonSlave.TabStop = true;
             this.radioButtonSlave.Text = "Slave";
             this.toolTip.SetToolTip(this.radioButtonSlave, resources.GetString("radioButtonSlave.ToolTip"));
             this.radioButtonSlave.UseVisualStyleBackColor = true;
@@ -150,10 +148,12 @@
             // radioButtonMaster
             // 
             this.radioButtonMaster.AutoSize = true;
+            this.radioButtonMaster.Checked = true;
             this.radioButtonMaster.Location = new System.Drawing.Point(327, 145);
             this.radioButtonMaster.Name = "radioButtonMaster";
             this.radioButtonMaster.Size = new System.Drawing.Size(57, 17);
             this.radioButtonMaster.TabIndex = 19;
+            this.radioButtonMaster.TabStop = true;
             this.radioButtonMaster.Text = "Master";
             this.toolTip.SetToolTip(this.radioButtonMaster, resources.GetString("radioButtonMaster.ToolTip"));
             this.radioButtonMaster.UseVisualStyleBackColor = true;
