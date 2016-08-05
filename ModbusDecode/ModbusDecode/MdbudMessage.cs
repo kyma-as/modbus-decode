@@ -155,13 +155,13 @@ namespace ModbusDecode
                     // TX 01 03 58 01 14 00 00 46 81 38 00 45 48 40 00 44 F1 80 00 42 47 99 9A 47 26 C9 00 47 1D 38 00 47 1D 3A 00 47 27 F8 00 43 82 F3 33 3F B3 33 33 43 2C 66 66 00 00 00 00 00 00 00 00 00 00 00 00 45 34 50 00 00 00 00 00 00 00 00 00 00 00 00 00 43 C9 80 00 41 49 99 9A 41 48 00 00 60 34 
                     if (mdbusMessage.MessageRole == ModbusMessageRole.Response)
                     {
-                        mdbusMessage.ByteCount = ConvertHexStringToInt(hexValuesSplit, 2, 1);
+                        mdbusMessage.ByteCount = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 2, 1);
                         startByte = 3;
                     }
                     else
                     {
-                        mdbusMessage.StartAddress = ConvertHexStringToInt(hexValuesSplit, 2, 2);
-                        mdbusMessage.RegisterCount = ConvertHexStringToInt(hexValuesSplit, 4, 2);
+                        mdbusMessage.StartAddress = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 2, 2);
+                        mdbusMessage.RegisterCount = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 4, 2);
                         startByte = 6; // Not really. no data after this
                     }
 
@@ -170,20 +170,20 @@ namespace ModbusDecode
                     // Request and response are the same:
                     // RX 01 06 00 00 02 FD 49 2B
                     // TX 01 06 00 00 02 FD 49 2B
-                    mdbusMessage.StartAddress = ConvertHexStringToInt(hexValuesSplit, 2, 2);
-                    mdbusMessage.SingleRegisterValue = ConvertHexStringToInt(hexValuesSplit, 4, 2);                   
+                    mdbusMessage.StartAddress = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 2, 2);
+                    mdbusMessage.SingleRegisterValue = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 4, 2);                   
                     startByte = 6;
                     break;
                 case 16:
                     // Request and response differs (we are slave):
                     // RX 01 10 00 5B 00 10 20 00 00 3F 80 00 00 3F 80 CC CD 42 0C CC CD 41 DC 51 EC 41 2C 1E B8 40 B5 CC CD 40 F4 E1 48 40 FA FB DB 
                     // TX 01 10 00 5B 00 10 B0 16 
-                    mdbusMessage.StartAddress = ConvertHexStringToInt(hexValuesSplit, 2, 2);
-                    mdbusMessage.RegisterCount = ConvertHexStringToInt(hexValuesSplit, 4, 2);
+                    mdbusMessage.StartAddress = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 2, 2);
+                    mdbusMessage.RegisterCount = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 4, 2);
                     // Only request has byte count
                     if (mdbusMessage.MessageRole == ModbusMessageRole.Request)
                     {
-                        mdbusMessage.ByteCount = ConvertHexStringToInt(hexValuesSplit, 6, 1);
+                        mdbusMessage.ByteCount = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 6, 1);
                     }
                     startByte = 7;
                     break;
@@ -324,20 +324,6 @@ namespace ModbusDecode
                 }
             }
             return strBuilder.ToString();
-        }
-
-        private static Nullable<int> ConvertHexStringToInt(string[] hexvalues, int startIndex, int count)
-        {
-            string hexString = string.Empty;
-            if (hexvalues.Length > startIndex + count - 1)
-            {
-                for (int i = startIndex; i < startIndex + count; i++)
-                {
-                    hexString += hexvalues[i];
-                }
-                return Convert.ToInt32(hexString, 16);
-            }
-            return null;
         }
 
 
