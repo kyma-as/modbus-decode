@@ -55,6 +55,7 @@ namespace ModbusDecode
         public string Checksum { get; set; }
         public List<MdbusFloat> Values { get; private set; }
         public string OriginalMessageString { get; private set; }
+        public bool ChecksumOk { get; private set; }
 
         // Declare Modbus register base addresses as consts.
         // They are all off by 1, so reading Analog Input register 100 will
@@ -194,6 +195,7 @@ namespace ModbusDecode
             if (hexValuesSplit.Length > 1)
             {
                 mdbusMessage.Checksum = hexValuesSplit[hexValuesSplit.Length - 2] + hexValuesSplit[hexValuesSplit.Length - 1];
+                mdbusMessage.ChecksumOk = ModbusUtility.CheckModbusCRC(hexValuesSplit);
             }
                     
             // convert all float values from hex string
@@ -306,7 +308,7 @@ namespace ModbusDecode
             {
                 strBuilder.AppendLine(string.Format("{0,-20}{1,5} (0x{1:X2})", "Byte Count:", ByteCount));
             }
-            strBuilder.AppendLine(string.Format("{0,-20}{1,5}", "Checksum:", Checksum));
+            strBuilder.AppendLine(string.Format("{0,-20}{1,5} ({2})", "Checksum:", Checksum, ChecksumOk ? "GOOD" : "BAD"));
 
             strBuilder.AppendFormat("Float Values ({0}):", Values.Count).AppendLine();
             var lineNumber = 1;
