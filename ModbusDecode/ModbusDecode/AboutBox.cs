@@ -21,7 +21,12 @@ namespace ModbusDecode
             this.labelCompanyName.Text = AssemblyCompany;
             this.textBoxDescription.Text = AssemblyDescription;
 
-            var readMeFile = "ModbusDecode ReadMe.txt";
+            LoadFile("ModbusDecode ReadMe.txt");
+        }
+
+        private void LoadFile(string readMeFile)
+        {
+            readmeBox.Clear();
             if (File.Exists(readMeFile))
             {
                 try
@@ -124,6 +129,20 @@ namespace ModbusDecode
         private void okButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void buttonViewReadme_Click(object sender, EventArgs e)
+        {
+            if (buttonViewReadme.Text.ToLower().Contains("version"))
+            {
+                LoadFile("Version.txt");
+                buttonViewReadme.Text = "View Readme Text";
+            }
+            else
+            {
+                LoadFile("ModbusDecode Readme.txt");
+                buttonViewReadme.Text = "View Version History";
+            }
         }
     }
 }
