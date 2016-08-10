@@ -61,6 +61,44 @@ namespace ModbusDecode
         {
             return CalculateCRC(hexValues) == 0;
         }
+
+        /// <summary>
+        /// Given a Modbus exception code it retuns a meaningfull name
+        /// These are taken from http://www.simplymodbus.ca/exceptions.htm
+        /// and here http://www.modbus.org/docs/Modbus_Application_Protocol_V1_1b.pdf
+        /// For a better explanation we could also return a detailed message explanation
+        /// </summary>
+        /// <param name="exceptionCode"></param>
+        /// <returns></returns>
+        public static string GetModbusExceptionName(int exceptionCode)
+        {
+            switch (exceptionCode)
+            {
+                case 1:
+                    return "Illegal Function";
+                case 2:
+                    return "Illegal Data Address";
+                case 3:
+                    return "Illegal Data Value";
+                case 4:
+                    return "Slave Device Failure";
+                case 5:
+                    return "Acknowledge";
+                case 6:
+                    return "Slave Device Busy";
+                case 7:
+                    return "Negative Acknowledge";
+                case 8:
+                    return "Memory Parity Error";
+                case 10:
+                    return "Gateway Path Unavailable";
+                case 11:
+                    return "Gateway Target Device Failed to Respond";
+                default:
+                    return "Unknown exception code: " + exceptionCode.ToString();
+
+            }
+        }
             
     }
 }

@@ -57,3 +57,8 @@ TX 01 10 00 5B 00 10 B0 16
 Preset Single Register (FC=06) - request to write single register value, repsone to acknowledge
 RX 01 06 00 00 04 35 4B 1D 
 TX 01 06 00 00 04 35 4B 1D 
+
+------------------------------------------------------------
+Exception example
+------------------------------------------------------------
+0A 81 02 B0 53
