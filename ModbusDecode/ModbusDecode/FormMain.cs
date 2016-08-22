@@ -58,13 +58,34 @@ namespace ModbusDecode
 
         private static void RequestHelp()
         {
+            RequestHelp(HelpTabs.ReadMe);
+        }
+
+        private static void RequestHelp(HelpTabs helpTab)
+        {
             AboutBox box = new AboutBox();
+            box.ShowTab(helpTab);
             box.Show();
         }
 
         private void pictureBoxKymaLogo_DoubleClick(object sender, EventArgs e)
         {
             RequestHelp();
+        }
+
+        private void buttonReadMe_Click(object sender, EventArgs e)
+        {
+            RequestHelp(HelpTabs.ReadMe);
+        }
+
+        private void buttonVersionHistory_Click(object sender, EventArgs e)
+        {
+            RequestHelp(HelpTabs.VersionHistory);
+        }
+
+        private void buttonErrorCodes_Click(object sender, EventArgs e)
+        {
+            RequestHelp(HelpTabs.ErrorCodes);
         }
     }
 }
