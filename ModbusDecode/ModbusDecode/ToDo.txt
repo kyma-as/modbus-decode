@@ -1,8 +1,10 @@
 ﻿Work To Do:
 
-- Verify Checksum
+- Option to import (drag-drop) whole file
+- Option to paste multiple lines
+- Auto-detect Modicon float ?? (if abs float value is less than 1e-10 ??)
 - Decode requests and other FCs better
-  - including error codes
+  - including error codes DONE
 
 03 13:06:18.131 G  RX 01 10 00 AE 00 02 04 BD 62 03 C5 3D 4A 
 03 13:06:18.199 G  TX 01 10 00 AE 00 02 20 29 
@@ -25,7 +27,3 @@
 03 13:06:19.400 G  RX 01 10 00 58 00 02 04 41 F7 D3 F4 0E 4C 
 
 
-- Auto-detect Modicon float ?? (if abs float value is less than 1e-10 ??)
-
-- Option to paste multiple lines
-- Option to import (drag-drop) whole file
