@@ -41,23 +41,26 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.radioButtonSlave = new System.Windows.Forms.RadioButton();
             this.radioButtonMaster = new System.Windows.Forms.RadioButton();
+            this.buttonReadMe = new System.Windows.Forms.Button();
+            this.buttonVersionHistory = new System.Windows.Forms.Button();
+            this.buttonErrorCodes = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtInput
             // 
             this.txtInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtInput.Location = new System.Drawing.Point(42, 82);
+            this.txtInput.Location = new System.Drawing.Point(12, 82);
             this.txtInput.Name = "txtInput";
-            this.txtInput.Size = new System.Drawing.Size(741, 20);
+            this.txtInput.Size = new System.Drawing.Size(771, 20);
             this.txtInput.TabIndex = 0;
             this.txtInput.Text = "RX 01 04 10 60 3A 46 33 69 89 44 57 33 CE 43 06 8B 59 3B 72 C4 8E ";
             // 
             // btnDecode
             // 
-            this.btnDecode.Location = new System.Drawing.Point(42, 122);
+            this.btnDecode.Location = new System.Drawing.Point(12, 122);
             this.btnDecode.Name = "btnDecode";
-            this.btnDecode.Size = new System.Drawing.Size(75, 23);
+            this.btnDecode.Size = new System.Drawing.Size(92, 23);
             this.btnDecode.TabIndex = 1;
             this.btnDecode.Text = "Decode";
             this.toolTip.SetToolTip(this.btnDecode, "Decodes the Modbus message in the input form.\r\nAll result will be added to the re" +
@@ -68,7 +71,7 @@
             // lblResult
             // 
             this.lblResult.AutoSize = true;
-            this.lblResult.Location = new System.Drawing.Point(39, 163);
+            this.lblResult.Location = new System.Drawing.Point(12, 163);
             this.lblResult.Name = "lblResult";
             this.lblResult.Size = new System.Drawing.Size(40, 13);
             this.lblResult.TabIndex = 2;
@@ -77,7 +80,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(39, 35);
+            this.label1.Location = new System.Drawing.Point(9, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(338, 26);
             this.label1.TabIndex = 3;
@@ -104,16 +107,16 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.resultBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.resultBox.Location = new System.Drawing.Point(42, 179);
+            this.resultBox.Location = new System.Drawing.Point(12, 179);
             this.resultBox.Name = "resultBox";
-            this.resultBox.Size = new System.Drawing.Size(741, 384);
+            this.resultBox.Size = new System.Drawing.Size(771, 355);
             this.resultBox.TabIndex = 15;
             this.resultBox.Text = "";
             // 
             // buttonClear
             // 
-            this.buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonClear.Location = new System.Drawing.Point(645, 153);
+            this.buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonClear.Location = new System.Drawing.Point(645, 540);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(138, 23);
             this.buttonClear.TabIndex = 16;
@@ -158,11 +161,47 @@
             this.toolTip.SetToolTip(this.radioButtonMaster, resources.GetString("radioButtonMaster.ToolTip"));
             this.radioButtonMaster.UseVisualStyleBackColor = true;
             // 
+            // buttonReadMe
+            // 
+            this.buttonReadMe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonReadMe.Location = new System.Drawing.Point(12, 540);
+            this.buttonReadMe.Name = "buttonReadMe";
+            this.buttonReadMe.Size = new System.Drawing.Size(108, 23);
+            this.buttonReadMe.TabIndex = 20;
+            this.buttonReadMe.Text = "ReadMe";
+            this.buttonReadMe.UseVisualStyleBackColor = true;
+            this.buttonReadMe.Click += new System.EventHandler(this.buttonReadMe_Click);
+            // 
+            // buttonVersionHistory
+            // 
+            this.buttonVersionHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonVersionHistory.Location = new System.Drawing.Point(126, 540);
+            this.buttonVersionHistory.Name = "buttonVersionHistory";
+            this.buttonVersionHistory.Size = new System.Drawing.Size(108, 23);
+            this.buttonVersionHistory.TabIndex = 21;
+            this.buttonVersionHistory.Text = "Version History";
+            this.buttonVersionHistory.UseVisualStyleBackColor = true;
+            this.buttonVersionHistory.Click += new System.EventHandler(this.buttonVersionHistory_Click);
+            // 
+            // buttonErrorCodes
+            // 
+            this.buttonErrorCodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonErrorCodes.Location = new System.Drawing.Point(240, 540);
+            this.buttonErrorCodes.Name = "buttonErrorCodes";
+            this.buttonErrorCodes.Size = new System.Drawing.Size(108, 23);
+            this.buttonErrorCodes.TabIndex = 22;
+            this.buttonErrorCodes.Text = "Error Codes";
+            this.buttonErrorCodes.UseVisualStyleBackColor = true;
+            this.buttonErrorCodes.Click += new System.EventHandler(this.buttonErrorCodes_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(795, 575);
+            this.Controls.Add(this.buttonErrorCodes);
+            this.Controls.Add(this.buttonVersionHistory);
+            this.Controls.Add(this.buttonReadMe);
             this.Controls.Add(this.radioButtonMaster);
             this.Controls.Add(this.radioButtonSlave);
             this.Controls.Add(this.buttonAbout);
@@ -196,6 +235,9 @@
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.RadioButton radioButtonSlave;
         private System.Windows.Forms.RadioButton radioButtonMaster;
+        private System.Windows.Forms.Button buttonReadMe;
+        private System.Windows.Forms.Button buttonVersionHistory;
+        private System.Windows.Forms.Button buttonErrorCodes;
     }
 }
 

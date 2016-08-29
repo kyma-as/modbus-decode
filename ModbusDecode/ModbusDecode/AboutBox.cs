@@ -9,6 +9,13 @@ using System.IO;
 
 namespace ModbusDecode
 {
+    enum HelpTabs
+    {
+        ReadMe,
+        VersionHistory,
+        ErrorCodes,
+    }
+
     partial class AboutBox : Form
     {
         public AboutBox()
@@ -21,28 +28,30 @@ namespace ModbusDecode
             this.labelCompanyName.Text = AssemblyCompany;
             this.textBoxDescription.Text = AssemblyDescription;
 
-            LoadFile("ModbusDecode ReadMe.txt");
+            LoadFile(readmeBox, "ModbusDecode ReadMe.txt");
+            LoadFile(versionHistoryBox, "Version.txt");
+            LoadFile(errorCodesBox, "ModbusErrorCodes.txt");
         }
 
-        private void LoadFile(string readMeFile)
+        private void LoadFile(RichTextBox textBox, string textBoxFile)
         {
-            readmeBox.Clear();
-            if (File.Exists(readMeFile))
+            textBox.Clear();
+            if (File.Exists(textBoxFile))
             {
                 try
                 {
-                    readmeBox.LoadFile(readMeFile, RichTextBoxStreamType.PlainText);
+                    textBox.LoadFile(textBoxFile, RichTextBoxStreamType.PlainText);
                 }
                 catch (Exception e)
                 {
-                    readmeBox.AppendText("Error loading help file '" + readMeFile + "'.");
-                    readmeBox.AppendText(Environment.NewLine + Environment.NewLine);
-                    readmeBox.AppendText("Message: " + e.Message);
+                    textBox.AppendText("Error loading help file '" + textBoxFile + "'.");
+                    textBox.AppendText(Environment.NewLine + Environment.NewLine);
+                    textBox.AppendText("Message: " + e.Message);
                 }
             }
             else
             {
-                readmeBox.AppendText("Help file '" + readMeFile + "' not found!");
+                textBox.AppendText("Help file '" + textBoxFile + "' not found!");
             }
         }
 
@@ -131,18 +140,23 @@ namespace ModbusDecode
             Close();
         }
 
-        private void buttonViewReadme_Click(object sender, EventArgs e)
+        internal void ShowTab(HelpTabs helpTab)
         {
-            if (buttonViewReadme.Text.ToLower().Contains("version"))
+            switch (helpTab)
             {
-                LoadFile("Version.txt");
-                buttonViewReadme.Text = "View Readme Text";
-            }
-            else
-            {
-                LoadFile("ModbusDecode Readme.txt");
-                buttonViewReadme.Text = "View Version History";
+                case HelpTabs.ReadMe:
+                    tabControlFiles.SelectedTab = tabPageReadMe;
+                    break;
+                case HelpTabs.VersionHistory:
+                    tabControlFiles.SelectedTab = tabPageVersionHistory;
+                    break;
+                case HelpTabs.ErrorCodes:
+                    tabControlFiles.SelectedTab = tabPageErrorCodes;
+                    break;
+                default:
+                    break;
             }
         }
+
     }
 }

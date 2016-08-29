@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ModbusDecode ReadMe.txt" />
+    <Content Include="ModbusErrorCodes.txt" />
     <Content Include="modbus_logo.ico" />
     <Content Include="ToDo.txt" />
     <Content Include="Version.txt" />
@@ -136,7 +137,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>call copy "$(ProjectDir)ModbusDecode ReadMe.txt" "$(TargetDir)"
-call copy "$(ProjectDir)Version.txt" "$(TargetDir)"</PostBuildEvent>
+call copy "$(ProjectDir)Version.txt" "$(TargetDir)"
+call copy "$(ProjectDir)ModbusErrorCodes.txt" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

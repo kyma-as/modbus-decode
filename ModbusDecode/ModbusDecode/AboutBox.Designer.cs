@@ -36,10 +36,19 @@
             this.labelCompanyName = new System.Windows.Forms.Label();
             this.textBoxDescription = new System.Windows.Forms.TextBox();
             this.okButton = new System.Windows.Forms.Button();
+            this.tabControlFiles = new System.Windows.Forms.TabControl();
+            this.tabPageReadMe = new System.Windows.Forms.TabPage();
+            this.tabPageVersionHistory = new System.Windows.Forms.TabPage();
+            this.tabPageErrorCodes = new System.Windows.Forms.TabPage();
             this.readmeBox = new System.Windows.Forms.RichTextBox();
-            this.buttonViewReadme = new System.Windows.Forms.Button();
+            this.versionHistoryBox = new System.Windows.Forms.RichTextBox();
+            this.errorCodesBox = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
+            this.tabControlFiles.SuspendLayout();
+            this.tabPageReadMe.SuspendLayout();
+            this.tabPageVersionHistory.SuspendLayout();
+            this.tabPageErrorCodes.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
@@ -149,30 +158,84 @@
             this.okButton.Text = "&OK";
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
-            // readmeBox
+            // tabControlFiles
             // 
-            this.readmeBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tabControlFiles.Alignment = System.Windows.Forms.TabAlignment.Bottom;
+            this.tabControlFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControlFiles.Controls.Add(this.tabPageReadMe);
+            this.tabControlFiles.Controls.Add(this.tabPageVersionHistory);
+            this.tabControlFiles.Controls.Add(this.tabPageErrorCodes);
+            this.tabControlFiles.Location = new System.Drawing.Point(9, 182);
+            this.tabControlFiles.Name = "tabControlFiles";
+            this.tabControlFiles.SelectedIndex = 0;
+            this.tabControlFiles.Size = new System.Drawing.Size(670, 363);
+            this.tabControlFiles.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.tabControlFiles.TabIndex = 28;
+            // 
+            // tabPageReadMe
+            // 
+            this.tabPageReadMe.Controls.Add(this.readmeBox);
+            this.tabPageReadMe.Location = new System.Drawing.Point(4, 4);
+            this.tabPageReadMe.Name = "tabPageReadMe";
+            this.tabPageReadMe.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageReadMe.Size = new System.Drawing.Size(662, 337);
+            this.tabPageReadMe.TabIndex = 0;
+            this.tabPageReadMe.Text = "ReadMe";
+            this.tabPageReadMe.UseVisualStyleBackColor = true;
+            // 
+            // tabPageVersionHistory
+            // 
+            this.tabPageVersionHistory.Controls.Add(this.versionHistoryBox);
+            this.tabPageVersionHistory.Location = new System.Drawing.Point(4, 4);
+            this.tabPageVersionHistory.Name = "tabPageVersionHistory";
+            this.tabPageVersionHistory.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageVersionHistory.Size = new System.Drawing.Size(662, 337);
+            this.tabPageVersionHistory.TabIndex = 1;
+            this.tabPageVersionHistory.Text = "Version History";
+            this.tabPageVersionHistory.UseVisualStyleBackColor = true;
+            // 
+            // tabPageErrorCodes
+            // 
+            this.tabPageErrorCodes.Controls.Add(this.errorCodesBox);
+            this.tabPageErrorCodes.Location = new System.Drawing.Point(4, 4);
+            this.tabPageErrorCodes.Name = "tabPageErrorCodes";
+            this.tabPageErrorCodes.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageErrorCodes.Size = new System.Drawing.Size(662, 337);
+            this.tabPageErrorCodes.TabIndex = 2;
+            this.tabPageErrorCodes.Text = "Error Codes";
+            this.tabPageErrorCodes.UseVisualStyleBackColor = true;
+            // 
+            // readmeBox
+            // 
+            this.readmeBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.readmeBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.readmeBox.Location = new System.Drawing.Point(9, 185);
+            this.readmeBox.Location = new System.Drawing.Point(3, 3);
             this.readmeBox.Name = "readmeBox";
-            this.readmeBox.Size = new System.Drawing.Size(670, 360);
-            this.readmeBox.TabIndex = 25;
+            this.readmeBox.Size = new System.Drawing.Size(656, 331);
+            this.readmeBox.TabIndex = 26;
             this.readmeBox.Text = "";
-            this.readmeBox.WordWrap = false;
             // 
-            // buttonViewReadme
+            // versionHistoryBox
             // 
-            this.buttonViewReadme.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonViewReadme.Location = new System.Drawing.Point(12, 551);
-            this.buttonViewReadme.Name = "buttonViewReadme";
-            this.buttonViewReadme.Size = new System.Drawing.Size(130, 23);
-            this.buttonViewReadme.TabIndex = 26;
-            this.buttonViewReadme.Tag = "";
-            this.buttonViewReadme.Text = "View Version History";
-            this.buttonViewReadme.UseVisualStyleBackColor = true;
-            this.buttonViewReadme.Click += new System.EventHandler(this.buttonViewReadme_Click);
+            this.versionHistoryBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.versionHistoryBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.versionHistoryBox.Location = new System.Drawing.Point(3, 3);
+            this.versionHistoryBox.Name = "versionHistoryBox";
+            this.versionHistoryBox.Size = new System.Drawing.Size(656, 331);
+            this.versionHistoryBox.TabIndex = 27;
+            this.versionHistoryBox.Text = "";
+            // 
+            // errorCodesBox
+            // 
+            this.errorCodesBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.errorCodesBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.errorCodesBox.Location = new System.Drawing.Point(3, 3);
+            this.errorCodesBox.Name = "errorCodesBox";
+            this.errorCodesBox.Size = new System.Drawing.Size(656, 331);
+            this.errorCodesBox.TabIndex = 27;
+            this.errorCodesBox.Text = "";
             // 
             // AboutBox
             // 
@@ -181,8 +244,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.okButton;
             this.ClientSize = new System.Drawing.Size(691, 586);
-            this.Controls.Add(this.buttonViewReadme);
-            this.Controls.Add(this.readmeBox);
+            this.Controls.Add(this.tabControlFiles);
             this.Controls.Add(this.tableLayoutPanel);
             this.Controls.Add(this.okButton);
             this.MaximizeBox = false;
@@ -196,6 +258,10 @@
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).EndInit();
+            this.tabControlFiles.ResumeLayout(false);
+            this.tabPageReadMe.ResumeLayout(false);
+            this.tabPageVersionHistory.ResumeLayout(false);
+            this.tabPageErrorCodes.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -210,7 +276,12 @@
         private System.Windows.Forms.Label labelCompanyName;
         private System.Windows.Forms.TextBox textBoxDescription;
         private System.Windows.Forms.Button okButton;
+        private System.Windows.Forms.TabControl tabControlFiles;
+        private System.Windows.Forms.TabPage tabPageReadMe;
+        private System.Windows.Forms.TabPage tabPageVersionHistory;
+        private System.Windows.Forms.TabPage tabPageErrorCodes;
         private System.Windows.Forms.RichTextBox readmeBox;
-        private System.Windows.Forms.Button buttonViewReadme;
+        private System.Windows.Forms.RichTextBox versionHistoryBox;
+        private System.Windows.Forms.RichTextBox errorCodesBox;
     }
 }
