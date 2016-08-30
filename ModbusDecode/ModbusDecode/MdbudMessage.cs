@@ -48,10 +48,10 @@ namespace ModbusDecode
         public ModbusMessageRole MessageRole { get; private set; }
         public int SlaveId { get; private set; }
         public int FunctionCode { get; private set; }
-        public Nullable<int> StartAddress { get; private set; }
-        public Nullable<int> RegisterCount { get; private set; }
-        public Nullable<int> SingleRegisterValue { get; private set; }
-        public Nullable<int> ByteCount { get; private set; }
+        public int? StartAddress { get; private set; }
+        public int? RegisterCount { get; private set; }
+        public int? SingleRegisterValue { get; private set; }
+        public int? ByteCount { get; private set; }
         public string Checksum { get; set; }
         public List<MdbusFloat> Values { get; private set; }
         public string OriginalMessageString { get; private set; }
