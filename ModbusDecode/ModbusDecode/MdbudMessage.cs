@@ -164,6 +164,12 @@ namespace ModbusDecode
                 }
             }
 
+            if (hexValuesSplit.Length > 1)
+            {
+                Checksum = hexValuesSplit[hexValuesSplit.Length - 2] + hexValuesSplit[hexValuesSplit.Length - 1];
+                ChecksumOk = ModbusUtility.CheckModbusCRC(hexValuesSplit);
+            }
+
             int startByte;
             switch (FunctionCode)
             {
@@ -210,12 +216,7 @@ namespace ModbusDecode
                     startByte = 3;
                     break;
             }
-            if (hexValuesSplit.Length > 1)
-            {
-                Checksum = hexValuesSplit[hexValuesSplit.Length - 2] + hexValuesSplit[hexValuesSplit.Length - 1];
-                ChecksumOk = ModbusUtility.CheckModbusCRC(hexValuesSplit);
-            }
-                    
+                     
             // convert all float values from hex string
             for (int i = startByte; (i - startByte < ByteCount) && (i < hexValuesSplit.Length - 3); i += 4)
             {
