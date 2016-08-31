@@ -178,6 +178,7 @@ namespace ModbusDecode
             switch (FunctionCode)
             {
                 case 1:
+                case 2:
                     if (MessageRole == ModbusMessageRole.Request)
                     {
                         StartAddress = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 2, 2);
@@ -234,7 +235,7 @@ namespace ModbusDecode
                     break;
             }
 
-            if ((FunctionCode == 1) && (MessageRole == ModbusMessageRole.Response))
+            if (((FunctionCode == 1) || (FunctionCode == 2)) && (MessageRole == ModbusMessageRole.Response))
             {
                 for (int i = startByte; (i - startByte < ByteCount) && (i < hexValuesSplit.Length - 2); i++)
                 {
@@ -287,6 +288,9 @@ namespace ModbusDecode
             {
                 case 1:
                     strBuilder.AppendLine("Read Coils");
+                    break;
+                case 2:
+                    strBuilder.AppendLine("Read Input Status");
                     break;
                 case 3:
                     strBuilder.AppendLine("Read Holding Registers");
