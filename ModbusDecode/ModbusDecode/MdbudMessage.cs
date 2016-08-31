@@ -53,12 +53,11 @@ namespace ModbusDecode
         public int? SingleRegisterValue { get; private set; }
         public int? ByteCount { get; private set; }
         public string Checksum { get; set; }
-        public List<MdbusFloat> Values { get; private set; }
+        public List<MdbusFloat> FloatValues { get; private set; }
         public string OriginalMessageString { get; private set; }
         public bool ChecksumOk { get; private set; }
         public bool ModbusException { get; private set; }
         public short ExceptionCode { get; private set; }
-
 
         // Declare Modbus register base addresses as consts.
         // They are all off by 1, so reading Analog Input register 100 will
@@ -70,7 +69,7 @@ namespace ModbusDecode
 
         public MdbusMessage()
         {
-            Values = new List<MdbusFloat>();
+            FloatValues = new List<MdbusFloat>();
         }
 
         public static MdbusMessage Decode(string message)
@@ -170,7 +169,9 @@ namespace ModbusDecode
                 ChecksumOk = ModbusUtility.CheckModbusCRC(hexValuesSplit);
             }
 
-            int startByte;
+            
+            int startByte = 0;
+            bool hasFloatValues = false;
             switch (FunctionCode)
             {
                 case 3:
@@ -182,12 +183,12 @@ namespace ModbusDecode
                     {
                         ByteCount = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 2, 1);
                         startByte = 3;
+                        hasFloatValues = true;
                     }
                     else
                     {
                         StartAddress = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 2, 2);
                         RegisterCount = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 4, 2);
-                        startByte = 6; // Not really. no data after this
                     }
 
                     break;
@@ -198,6 +199,7 @@ namespace ModbusDecode
                     StartAddress = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 2, 2);
                     SingleRegisterValue = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 4, 2);                   
                     startByte = 6;
+                    hasFloatValues = true;
                     break;
                 case 16:
                     // Request and response differs (we are slave):
@@ -209,34 +211,37 @@ namespace ModbusDecode
                     if (MessageRole == ModbusMessageRole.Request)
                     {
                         ByteCount = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 6, 1);
+                        startByte = 7;
+                        hasFloatValues = true;
                     }
-                    startByte = 7;
                     break;
                 default:
-                    startByte = 3;
                     break;
             }
-                     
-            // convert all float values from hex string
-            for (int i = startByte; (i - startByte < ByteCount) && (i < hexValuesSplit.Length - 3); i += 4)
-            {
-                MdbusFloat mdbusFloat = new MdbusFloat();
-                mdbusFloat.RawString = hexValuesSplit[i] + ' ' + hexValuesSplit[i + 1] + ' ' + hexValuesSplit[i + 2] + ' ' + hexValuesSplit[i + 3];
-                if (modiconFloat)
-                {
-                    mdbusFloat.FloatString = (hexValuesSplit[i + 2] + hexValuesSplit[i + 3] + hexValuesSplit[i + 0] + hexValuesSplit[i + 1]);
-                }
-                else
-                {
-                    mdbusFloat.FloatString = (hexValuesSplit[i + 0] + hexValuesSplit[i + 1] + hexValuesSplit[i + 2] + hexValuesSplit[i + 3]);
-                }
-                // Convert hex string to float value
-                uint num = uint.Parse(mdbusFloat.FloatString, System.Globalization.NumberStyles.AllowHexSpecifier);
 
-                byte[] floatVals = BitConverter.GetBytes(num);
-                mdbusFloat.Value = BitConverter.ToSingle(floatVals, 0);
-                
-                Values.Add(mdbusFloat);
+            if (hasFloatValues)
+            {
+                // convert all float values from hex string
+                for (int i = startByte; (i - startByte < ByteCount) && (i < hexValuesSplit.Length - 3); i += 4)
+                {
+                    MdbusFloat mdbusFloat = new MdbusFloat();
+                    mdbusFloat.RawString = hexValuesSplit[i] + ' ' + hexValuesSplit[i + 1] + ' ' + hexValuesSplit[i + 2] + ' ' + hexValuesSplit[i + 3];
+                    if (modiconFloat)
+                    {
+                        mdbusFloat.FloatString = (hexValuesSplit[i + 2] + hexValuesSplit[i + 3] + hexValuesSplit[i + 0] + hexValuesSplit[i + 1]);
+                    }
+                    else
+                    {
+                        mdbusFloat.FloatString = (hexValuesSplit[i + 0] + hexValuesSplit[i + 1] + hexValuesSplit[i + 2] + hexValuesSplit[i + 3]);
+                    }
+                    // Convert hex string to float value
+                    uint num = uint.Parse(mdbusFloat.FloatString, System.Globalization.NumberStyles.AllowHexSpecifier);
+
+                    byte[] floatVals = BitConverter.GetBytes(num);
+                    mdbusFloat.Value = BitConverter.ToSingle(floatVals, 0);
+
+                    FloatValues.Add(mdbusFloat);
+                }
             }
         }
 
@@ -333,19 +338,22 @@ namespace ModbusDecode
                 strBuilder.AppendLine(string.Format("{0,-20}{1,5}", "Exception Text:", ModbusUtility.GetModbusExceptionName(ExceptionCode)));
             }
 
-            strBuilder.AppendFormat("Float Values ({0}):", Values.Count).AppendLine();
-            var lineNumber = 1;
-            var address = baseAddress + StartAddress;
-            foreach (var value in Values)
+            if (FloatValues.Count > 0)
             {
-                if (StartAddress.HasValue)
+                strBuilder.AppendFormat("Float Values ({0}):", FloatValues.Count).AppendLine();
+                var lineNumber = 1;
+                var address = baseAddress + StartAddress;
+                foreach (var value in FloatValues)
                 {
-                    strBuilder.AppendLine(string.Format("{0,10:D3} {1:D5}: {2} -> {3} -> {4}", lineNumber++, address, value.RawString, value.FloatString, value.Value));
-                    address += 2;
-                }
-                else
-                {
-                    strBuilder.AppendLine(string.Format("{0,10:D3}: {1} -> {2} -> {3}", lineNumber++, value.RawString, value.FloatString, value.Value));
+                    if (StartAddress.HasValue)
+                    {
+                        strBuilder.AppendLine(string.Format("{0,10:D3} {1:D5}: {2} -> {3} -> {4}", lineNumber++, address, value.RawString, value.FloatString, value.Value));
+                        address += 2;
+                    }
+                    else
+                    {
+                        strBuilder.AppendLine(string.Format("{0,10:D3}: {1} -> {2} -> {3}", lineNumber++, value.RawString, value.FloatString, value.Value));
+                    }
                 }
             }
             return strBuilder.ToString();
