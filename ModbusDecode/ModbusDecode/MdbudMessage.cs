@@ -52,7 +52,9 @@ namespace ModbusDecode
         public int? RegisterCount { get; private set; }
         public int? SingleRegisterValue { get; private set; }
         public int? ByteCount { get; private set; }
+        public int? CoilCount { get; private set; }
         public string Checksum { get; set; }
+        public List<int> Coils { get; private set; }
         public List<MdbusFloat> FloatValues { get; private set; }
         public string OriginalMessageString { get; private set; }
         public bool ChecksumOk { get; private set; }
@@ -70,6 +72,7 @@ namespace ModbusDecode
         public MdbusMessage()
         {
             FloatValues = new List<MdbusFloat>();
+            Coils = new List<int>();
         }
 
         public static MdbusMessage Decode(string message)
@@ -174,6 +177,18 @@ namespace ModbusDecode
             bool hasFloatValues = false;
             switch (FunctionCode)
             {
+                case 1:
+                    if (MessageRole == ModbusMessageRole.Request)
+                    {
+                        StartAddress = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 2, 2);
+                        CoilCount = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 4, 2);
+                    }
+                    else
+                    {
+                        ByteCount = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 2, 1);
+                        startByte = 3;
+                    }
+                    break;
                 case 3:
                 case 4:
                     // Request and response differs (we are slave):
@@ -217,6 +232,18 @@ namespace ModbusDecode
                     break;
                 default:
                     break;
+            }
+
+            if ((FunctionCode == 1) && (MessageRole == ModbusMessageRole.Response))
+            {
+                for (int i = startByte; (i - startByte < ByteCount) && (i < hexValuesSplit.Length - 2); i++)
+                {
+                    var byteValue = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, i, 1);
+                    if (byteValue.HasValue)
+                    {
+                        Coils.Add(byteValue.Value);
+                    }
+                }
             }
 
             if (hasFloatValues)
@@ -319,6 +346,10 @@ namespace ModbusDecode
             {
                 strBuilder.AppendLine(string.Format("{0,-20}{1,5} (0x{1:X4})", "Start Address:", StartAddress));
             }
+            if (CoilCount.HasValue)
+            {
+                strBuilder.AppendLine(string.Format("{0,-20}{1,5} (0x{1:X4})", "Coil Count:", CoilCount));
+            }
             if (RegisterCount.HasValue)
             {
                 strBuilder.AppendLine(string.Format("{0,-20}{1,5} (0x{1:X4})", "Register Count:", RegisterCount));
@@ -336,6 +367,19 @@ namespace ModbusDecode
             {
                 strBuilder.AppendLine(string.Format("{0,-20}{1,5} (0x{1:X2})", "Exception Code:", ExceptionCode));
                 strBuilder.AppendLine(string.Format("{0,-20}{1,5}", "Exception Text:", ModbusUtility.GetModbusExceptionName(ExceptionCode)));
+            }
+
+            if (Coils.Count > 0)
+            {
+                strBuilder.AppendFormat("Coil Values ({0} byte):", Coils.Count).AppendLine();
+                var lineNumber = 1;
+                foreach (var value in Coils)
+                {
+                    // I wish this could be done more elegantly in the string.Format() method, but apparently not
+                    string binaryString = Convert.ToString(value, 2);
+                    binaryString = binaryString.PadLeft(8, '0');
+                    strBuilder.AppendLine(string.Format("{0,11} {1:D3}: 0x{2:X2} -> 0b{3}", "Byte", lineNumber++, value, binaryString));
+                }
             }
 
             if (FloatValues.Count > 0)
