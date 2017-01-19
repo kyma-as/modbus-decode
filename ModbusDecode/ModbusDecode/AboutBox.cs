@@ -29,7 +29,7 @@ namespace ModbusDecode
             this.textBoxDescription.Text = AssemblyDescription;
 
             LoadFile(readmeBox, "ModbusDecode ReadMe.txt");
-            LoadFile(versionHistoryBox, "Version.txt");
+            LoadFile(versionHistoryBox, "ModbusDecode Version.txt");
             LoadFile(errorCodesBox, "ModbusErrorCodes.txt");
         }
 

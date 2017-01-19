@@ -110,7 +110,7 @@
     <Content Include="ModbusErrorCodes.txt" />
     <Content Include="modbus_logo.ico" />
     <Content Include="ToDo.txt" />
-    <Content Include="Version.txt" />
+    <Content Include="ModbusDecode Version.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
