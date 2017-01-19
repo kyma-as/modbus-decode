@@ -160,14 +160,15 @@
             // 
             // tabControlFiles
             // 
-            this.tabControlFiles.Alignment = System.Windows.Forms.TabAlignment.Bottom;
             this.tabControlFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControlFiles.Controls.Add(this.tabPageReadMe);
             this.tabControlFiles.Controls.Add(this.tabPageVersionHistory);
             this.tabControlFiles.Controls.Add(this.tabPageErrorCodes);
+            this.tabControlFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControlFiles.Location = new System.Drawing.Point(9, 182);
+            this.tabControlFiles.Multiline = true;
             this.tabControlFiles.Name = "tabControlFiles";
             this.tabControlFiles.SelectedIndex = 0;
             this.tabControlFiles.Size = new System.Drawing.Size(670, 363);
@@ -249,10 +250,12 @@
             this.Controls.Add(this.okButton);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(500, 350);
             this.Name = "AboutBox";
             this.Padding = new System.Windows.Forms.Padding(9);
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ModbusDecode - About";
             this.tableLayoutPanel.ResumeLayout(false);
