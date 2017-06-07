@@ -175,7 +175,7 @@ namespace ModbusDecode
 
             
             int startByte = 0;
-            bool hasFloatValues = false;
+            bool hasDataValues = false;
             switch (FunctionCode)
             {
                 case 1:
@@ -200,7 +200,7 @@ namespace ModbusDecode
                     {
                         ByteCount = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 2, 1);
                         startByte = 3;
-                        hasFloatValues = true;
+                        hasDataValues = true;
                     }
                     else
                     {
@@ -216,7 +216,7 @@ namespace ModbusDecode
                     StartAddress = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 2, 2);
                     SingleRegisterValue = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 4, 2);                   
                     startByte = 6;
-                    hasFloatValues = true;
+                    hasDataValues = true;
                     break;
                 case 16:
                     // Request and response differs (we are slave):
@@ -229,7 +229,7 @@ namespace ModbusDecode
                     {
                         ByteCount = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 6, 1);
                         startByte = 7;
-                        hasFloatValues = true;
+                        hasDataValues = true;
                     }
                     break;
                 default:
@@ -248,7 +248,7 @@ namespace ModbusDecode
                 }
             }
 
-            if (hasFloatValues)
+            if (hasDataValues)
             {
                 // convert all float values from hex string
                 for (int i = startByte; (i - startByte < ByteCount) && (i < hexValuesSplit.Length - 3); i += 4)
