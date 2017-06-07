@@ -44,6 +44,13 @@
             this.buttonReadMe = new System.Windows.Forms.Button();
             this.buttonVersionHistory = new System.Windows.Forms.Button();
             this.buttonErrorCodes = new System.Windows.Forms.Button();
+            this.radioButtonFloats = new System.Windows.Forms.RadioButton();
+            this.radioButtonInts = new System.Windows.Forms.RadioButton();
+            this.radioButtonLongInts = new System.Windows.Forms.RadioButton();
+            this.groupBoxData = new System.Windows.Forms.GroupBox();
+            this.groupBoxMode = new System.Windows.Forms.GroupBox();
+            this.groupBoxData.SuspendLayout();
+            this.groupBoxMode.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtInput
@@ -58,20 +65,23 @@
             // 
             // btnDecode
             // 
-            this.btnDecode.Location = new System.Drawing.Point(12, 122);
+            this.btnDecode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(149)))), ((int)(((byte)(161)))));
+            this.btnDecode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDecode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(24)))), ((int)(((byte)(68)))));
+            this.btnDecode.Location = new System.Drawing.Point(12, 108);
             this.btnDecode.Name = "btnDecode";
-            this.btnDecode.Size = new System.Drawing.Size(92, 23);
+            this.btnDecode.Size = new System.Drawing.Size(92, 44);
             this.btnDecode.TabIndex = 1;
             this.btnDecode.Text = "Decode";
             this.toolTip.SetToolTip(this.btnDecode, "Decodes the Modbus message in the input form.\r\nAll result will be added to the re" +
         "sult window below");
-            this.btnDecode.UseVisualStyleBackColor = true;
+            this.btnDecode.UseVisualStyleBackColor = false;
             this.btnDecode.Click += new System.EventHandler(this.btnDecode_Click);
             // 
             // lblResult
             // 
             this.lblResult.AutoSize = true;
-            this.lblResult.Location = new System.Drawing.Point(12, 163);
+            this.lblResult.Location = new System.Drawing.Point(12, 155);
             this.lblResult.Name = "lblResult";
             this.lblResult.Size = new System.Drawing.Size(40, 13);
             this.lblResult.TabIndex = 2;
@@ -107,9 +117,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.resultBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.resultBox.Location = new System.Drawing.Point(12, 179);
+            this.resultBox.Location = new System.Drawing.Point(12, 171);
             this.resultBox.Name = "resultBox";
-            this.resultBox.Size = new System.Drawing.Size(771, 355);
+            this.resultBox.Size = new System.Drawing.Size(771, 363);
             this.resultBox.TabIndex = 15;
             this.resultBox.Text = "";
             // 
@@ -140,7 +150,7 @@
             // radioButtonSlave
             // 
             this.radioButtonSlave.AutoSize = true;
-            this.radioButtonSlave.Location = new System.Drawing.Point(327, 122);
+            this.radioButtonSlave.Location = new System.Drawing.Point(69, 19);
             this.radioButtonSlave.Name = "radioButtonSlave";
             this.radioButtonSlave.Size = new System.Drawing.Size(52, 17);
             this.radioButtonSlave.TabIndex = 18;
@@ -152,7 +162,7 @@
             // 
             this.radioButtonMaster.AutoSize = true;
             this.radioButtonMaster.Checked = true;
-            this.radioButtonMaster.Location = new System.Drawing.Point(327, 145);
+            this.radioButtonMaster.Location = new System.Drawing.Point(6, 19);
             this.radioButtonMaster.Name = "radioButtonMaster";
             this.radioButtonMaster.Size = new System.Drawing.Size(57, 17);
             this.radioButtonMaster.TabIndex = 19;
@@ -194,17 +204,72 @@
             this.buttonErrorCodes.UseVisualStyleBackColor = true;
             this.buttonErrorCodes.Click += new System.EventHandler(this.buttonErrorCodes_Click);
             // 
+            // radioButtonFloats
+            // 
+            this.radioButtonFloats.AutoSize = true;
+            this.radioButtonFloats.Checked = true;
+            this.radioButtonFloats.Location = new System.Drawing.Point(6, 19);
+            this.radioButtonFloats.Name = "radioButtonFloats";
+            this.radioButtonFloats.Size = new System.Drawing.Size(53, 17);
+            this.radioButtonFloats.TabIndex = 23;
+            this.radioButtonFloats.TabStop = true;
+            this.radioButtonFloats.Text = "Floats";
+            this.radioButtonFloats.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonInts
+            // 
+            this.radioButtonInts.AutoSize = true;
+            this.radioButtonInts.Location = new System.Drawing.Point(65, 19);
+            this.radioButtonInts.Name = "radioButtonInts";
+            this.radioButtonInts.Size = new System.Drawing.Size(63, 17);
+            this.radioButtonInts.TabIndex = 24;
+            this.radioButtonInts.Text = "Integers";
+            this.radioButtonInts.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonLongInts
+            // 
+            this.radioButtonLongInts.AutoSize = true;
+            this.radioButtonLongInts.Location = new System.Drawing.Point(134, 19);
+            this.radioButtonLongInts.Name = "radioButtonLongInts";
+            this.radioButtonLongInts.Size = new System.Drawing.Size(69, 17);
+            this.radioButtonLongInts.TabIndex = 25;
+            this.radioButtonLongInts.Text = "Long Ints";
+            this.radioButtonLongInts.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxData
+            // 
+            this.groupBoxData.Controls.Add(this.radioButtonLongInts);
+            this.groupBoxData.Controls.Add(this.radioButtonFloats);
+            this.groupBoxData.Controls.Add(this.radioButtonInts);
+            this.groupBoxData.Location = new System.Drawing.Point(261, 108);
+            this.groupBoxData.Name = "groupBoxData";
+            this.groupBoxData.Size = new System.Drawing.Size(217, 44);
+            this.groupBoxData.TabIndex = 26;
+            this.groupBoxData.TabStop = false;
+            this.groupBoxData.Text = "Data";
+            // 
+            // groupBoxMode
+            // 
+            this.groupBoxMode.Controls.Add(this.radioButtonMaster);
+            this.groupBoxMode.Controls.Add(this.radioButtonSlave);
+            this.groupBoxMode.Location = new System.Drawing.Point(110, 108);
+            this.groupBoxMode.Name = "groupBoxMode";
+            this.groupBoxMode.Size = new System.Drawing.Size(145, 44);
+            this.groupBoxMode.TabIndex = 27;
+            this.groupBoxMode.TabStop = false;
+            this.groupBoxMode.Text = "Mode";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(795, 575);
+            this.Controls.Add(this.groupBoxMode);
+            this.Controls.Add(this.groupBoxData);
             this.Controls.Add(this.buttonErrorCodes);
             this.Controls.Add(this.checkBoxModiconFormat);
             this.Controls.Add(this.buttonVersionHistory);
             this.Controls.Add(this.buttonReadMe);
-            this.Controls.Add(this.radioButtonMaster);
-            this.Controls.Add(this.radioButtonSlave);
             this.Controls.Add(this.buttonAbout);
             this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.resultBox);
@@ -218,6 +283,10 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Modbus Decoder";
             this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.MainForm_HelpRequested);
+            this.groupBoxData.ResumeLayout(false);
+            this.groupBoxData.PerformLayout();
+            this.groupBoxMode.ResumeLayout(false);
+            this.groupBoxMode.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -239,6 +308,11 @@
         private System.Windows.Forms.Button buttonReadMe;
         private System.Windows.Forms.Button buttonVersionHistory;
         private System.Windows.Forms.Button buttonErrorCodes;
+        private System.Windows.Forms.RadioButton radioButtonFloats;
+        private System.Windows.Forms.RadioButton radioButtonInts;
+        private System.Windows.Forms.RadioButton radioButtonLongInts;
+        private System.Windows.Forms.GroupBox groupBoxData;
+        private System.Windows.Forms.GroupBox groupBoxMode;
     }
 }
 

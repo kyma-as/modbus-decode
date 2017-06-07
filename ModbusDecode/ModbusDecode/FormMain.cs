@@ -32,7 +32,16 @@ namespace ModbusDecode
             try
             {
                 ModbusMessageMode mode = radioButtonMaster.Checked ? ModbusMessageMode.Master : ModbusMessageMode.Slave;
-                MdbusMessage mdbusMessage = MdbusMessage.Decode(txtInput.Text, checkBoxModiconFormat.Checked, mode);
+                ModbusDataType dataType = ModbusDataType.Float;
+                if (radioButtonInts.Checked)
+                {
+                    dataType = ModbusDataType.Integer;
+                }
+                else if (radioButtonLongInts.Checked)
+                {
+                    dataType = ModbusDataType.LongInt;
+                }
+                MdbusMessage mdbusMessage = MdbusMessage.Decode(txtInput.Text, checkBoxModiconFormat.Checked, mode, dataType);
                 resultBox.Text = mdbusMessage.ToString(true) + resultBox.Text;
             }
             catch (Exception e)
@@ -87,5 +96,6 @@ namespace ModbusDecode
         {
             RequestHelp(HelpTabs.ErrorCodes);
         }
+
     }
 }
