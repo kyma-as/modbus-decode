@@ -17,7 +17,7 @@ namespace ModbusDecode
             Text += String.Format(" - Version {0}", AboutBox.AssemblyVersion);
         }
 
-        private void checkBoxModiconFloat_CheckedChanged(object sender, EventArgs e)
+        private void checkBoxModiconFormat_CheckedChanged(object sender, EventArgs e)
         {
             Decode();
         }
@@ -32,7 +32,7 @@ namespace ModbusDecode
             try
             {
                 ModbusMessageMode mode = radioButtonMaster.Checked ? ModbusMessageMode.Master : ModbusMessageMode.Slave;
-                MdbusMessage mdbusMessage = MdbusMessage.Decode(txtInput.Text, checkBoxModiconFloat.Checked, mode);
+                MdbusMessage mdbusMessage = MdbusMessage.Decode(txtInput.Text, checkBoxModiconFormat.Checked, mode);
                 resultBox.Text = mdbusMessage.ToString(true) + resultBox.Text;
             }
             catch (Exception e)

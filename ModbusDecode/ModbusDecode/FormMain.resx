@@ -123,8 +123,8 @@
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="checkBoxModiconFloat.ToolTip" xml:space="preserve">
-    <value>Check this if Modicon Float is used. The least significant bytes are sent in the 
+  <data name="checkBoxModiconFormat.ToolTip" xml:space="preserve">
+    <value>Check this if Modicon Float/LongInt format is used. The least significant bytes are sent in the 
 first register and the most significant bytes in the second register.
 
 It will automatically decode the message when this checkbox is clicked.

@@ -34,7 +34,7 @@
             this.btnDecode = new System.Windows.Forms.Button();
             this.lblResult = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.checkBoxModiconFloat = new System.Windows.Forms.CheckBox();
+            this.checkBoxModiconFormat = new System.Windows.Forms.CheckBox();
             this.resultBox = new System.Windows.Forms.RichTextBox();
             this.buttonClear = new System.Windows.Forms.Button();
             this.buttonAbout = new System.Windows.Forms.Button();
@@ -87,19 +87,19 @@
             this.label1.Text = "Please enter the Modbus communication string as hex values.\r\nEnter bytes seperate" +
     "d with space, like: [RX] 01 04 0B B8 00 08 73 CD";
             // 
-            // checkBoxModiconFloat
+            // checkBoxModiconFormat
             // 
-            this.checkBoxModiconFloat.AutoSize = true;
-            this.checkBoxModiconFloat.Checked = true;
-            this.checkBoxModiconFloat.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxModiconFloat.Location = new System.Drawing.Point(146, 126);
-            this.checkBoxModiconFloat.Name = "checkBoxModiconFloat";
-            this.checkBoxModiconFloat.Size = new System.Drawing.Size(115, 17);
-            this.checkBoxModiconFloat.TabIndex = 12;
-            this.checkBoxModiconFloat.Text = "Use Modicon Float";
-            this.toolTip.SetToolTip(this.checkBoxModiconFloat, resources.GetString("checkBoxModiconFloat.ToolTip"));
-            this.checkBoxModiconFloat.UseVisualStyleBackColor = true;
-            this.checkBoxModiconFloat.CheckedChanged += new System.EventHandler(this.checkBoxModiconFloat_CheckedChanged);
+            this.checkBoxModiconFormat.AutoSize = true;
+            this.checkBoxModiconFormat.Checked = true;
+            this.checkBoxModiconFormat.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxModiconFormat.Location = new System.Drawing.Point(484, 123);
+            this.checkBoxModiconFormat.Name = "checkBoxModiconFormat";
+            this.checkBoxModiconFormat.Size = new System.Drawing.Size(124, 17);
+            this.checkBoxModiconFormat.TabIndex = 12;
+            this.checkBoxModiconFormat.Text = "Use Modicon Format";
+            this.toolTip.SetToolTip(this.checkBoxModiconFormat, resources.GetString("checkBoxModiconFormat.ToolTip"));
+            this.checkBoxModiconFormat.UseVisualStyleBackColor = true;
+            this.checkBoxModiconFormat.CheckedChanged += new System.EventHandler(this.checkBoxModiconFormat_CheckedChanged);
             // 
             // resultBox
             // 
@@ -200,6 +200,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(795, 575);
             this.Controls.Add(this.buttonErrorCodes);
+            this.Controls.Add(this.checkBoxModiconFormat);
             this.Controls.Add(this.buttonVersionHistory);
             this.Controls.Add(this.buttonReadMe);
             this.Controls.Add(this.radioButtonMaster);
@@ -207,7 +208,6 @@
             this.Controls.Add(this.buttonAbout);
             this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.resultBox);
-            this.Controls.Add(this.checkBoxModiconFloat);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblResult);
             this.Controls.Add(this.btnDecode);
@@ -229,7 +229,7 @@
         private System.Windows.Forms.Button btnDecode;
         private System.Windows.Forms.Label lblResult;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox checkBoxModiconFloat;
+        private System.Windows.Forms.CheckBox checkBoxModiconFormat;
         private System.Windows.Forms.RichTextBox resultBox;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonAbout;

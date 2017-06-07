@@ -80,15 +80,15 @@ namespace ModbusDecode
             return MdbusMessage.Decode(message, true, ModbusMessageMode.Slave);
         }
 
-        public static MdbusMessage Decode(string message, bool modiconFloat)
+        public static MdbusMessage Decode(string message, bool useModiconFormat)
         {
-            return MdbusMessage.Decode(message, modiconFloat, ModbusMessageMode.Slave);
+            return MdbusMessage.Decode(message, useModiconFormat, ModbusMessageMode.Slave);
         }
 
-        public static MdbusMessage Decode(string message, bool modiconFloat, ModbusMessageMode mode)
+        public static MdbusMessage Decode(string message, bool useModiconFormat, ModbusMessageMode mode)
         {
             MdbusMessage mdbusMessage = new MdbusMessage();
-            mdbusMessage.DecodeMessage(message, modiconFloat, mode);
+            mdbusMessage.DecodeMessage(message, useModiconFormat, mode);
             return mdbusMessage;
         }
 
@@ -96,7 +96,7 @@ namespace ModbusDecode
         /// Decodes a message string from Mdbus.exe (Calta Software)
         /// </summary>
         /// <param name="message">Message string from Mdbus Monitor logging, starting with the Slave ID</param>
-        /// <param name="modiconFloat">True if Modicon Float is used (the least significant bytes are sent in the first register and the most significant bytes in the second register of a pair)</param>
+        /// <param name="useModiconFormat">True if Modicon format for Float or LongInt are used (the least significant bytes are sent in the first register and the most significant bytes in the second register of a pair)</param>
         /// <param name="mode">Set the mode to Master or Slave. Used to distinguish between request and response when decoding</param>
         /// <example>
         /// 
@@ -116,7 +116,7 @@ namespace ModbusDecode
         /// </example>
         /// <returns></returns>
         /// 
-        private void DecodeMessage(string message, bool modiconFloat, ModbusMessageMode mode)
+        private void DecodeMessage(string message, bool useModiconFormat, ModbusMessageMode mode)
         {
             if (!message.Contains(' '))
             {
@@ -251,17 +251,17 @@ namespace ModbusDecode
             if (hasDataValues)
             {
                 // convert all float values from hex string
-                ConvertDataToFloats(modiconFloat, hexValuesSplit, startByte);
+                ConvertDataToFloats(useModiconFormat, hexValuesSplit, startByte);
             }
         }
 
-        private void ConvertDataToFloats(bool modiconFloat, string[] hexValuesSplit, int startByte)
+        private void ConvertDataToFloats(bool useModiconFormat, string[] hexValuesSplit, int startByte)
         {
             for (int i = startByte; (i - startByte < ByteCount) && (i < hexValuesSplit.Length - 3); i += 4)
             {
                 MdbusFloat mdbusFloat = new MdbusFloat();
                 mdbusFloat.RawString = hexValuesSplit[i] + ' ' + hexValuesSplit[i + 1] + ' ' + hexValuesSplit[i + 2] + ' ' + hexValuesSplit[i + 3];
-                if (modiconFloat)
+                if (useModiconFormat)
                 {
                     mdbusFloat.FloatString = (hexValuesSplit[i + 2] + hexValuesSplit[i + 3] + hexValuesSplit[i + 0] + hexValuesSplit[i + 1]);
                 }
