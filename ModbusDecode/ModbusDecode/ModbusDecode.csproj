@@ -71,7 +71,7 @@
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="ModbusUtility.cs" />
-    <Compile Include="MdbudMessage.cs" />
+    <Compile Include="MdbusMessage.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
