@@ -66,6 +66,7 @@ namespace ModbusDecode
 
     class MdbusMessage
     {
+        public bool UseModiconFormat { get; private set; }
         public ModbusMessageMode MessageMode { get; private set; }
         public ModbusMessageType MessageType { get; private set; }
         public ModbusMessageRole MessageRole { get; private set; }
@@ -157,6 +158,7 @@ namespace ModbusDecode
                 throw new ArgumentException("Given message string does not contain spaces. Must use a valid string from Mdbus Monitor log");
             }
             OriginalMessageString = message;
+            UseModiconFormat = useModiconFormat;
             MessageMode = mode;
             DataType = dataType;
             // Check if there are RX or TX in beginning
@@ -479,6 +481,10 @@ namespace ModbusDecode
             if (FloatValues.Count > 0)
             {
                 strBuilder.AppendFormat("Float Values ({0}):", FloatValues.Count).AppendLine();
+                if (UseModiconFormat)
+                {
+                    strBuilder.AppendLine("Using Modicon format!");
+                }
                 var lineNumber = 1;
                 var address = baseAddress + StartAddress;
                 foreach (var value in FloatValues)
@@ -514,6 +520,10 @@ namespace ModbusDecode
             if (LongIntValues.Count > 0)
             {
                 strBuilder.AppendFormat("Long Integer Values ({0}):", LongIntValues.Count).AppendLine();
+                if (UseModiconFormat)
+                {
+                    strBuilder.AppendLine("Using Modicon format!");
+                }
                 var lineNumber = 1;
                 var address = baseAddress + StartAddress;
                 foreach (var value in LongIntValues)
