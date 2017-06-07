@@ -129,3 +129,12 @@ TX 01 10 00 5B 00 10 B0 16
 Exception example
 ------------------------------------------------------------
 0A 81 02 B0 53
+
+------------------------------------------------------------
+About Modicon format for floats and long integers
+------------------------------------------------------------
+According to mdbus documentation, Modicon format Lng. and Flt. means,
+"The least significant bytes are sent in the first register and the most significant bytes in the second register of a pair."
+Meaning we have to swap the byte pairs before converting to the value we want. This is visualized when the values are printed like this:
+
+51 24 45 B7 -> 45B75124 -> 5866,143 (swapping the two byte pairs)
