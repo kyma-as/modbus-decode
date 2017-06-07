@@ -251,26 +251,31 @@ namespace ModbusDecode
             if (hasDataValues)
             {
                 // convert all float values from hex string
-                for (int i = startByte; (i - startByte < ByteCount) && (i < hexValuesSplit.Length - 3); i += 4)
+                ConvertDataToFloats(modiconFloat, hexValuesSplit, startByte);
+            }
+        }
+
+        private void ConvertDataToFloats(bool modiconFloat, string[] hexValuesSplit, int startByte)
+        {
+            for (int i = startByte; (i - startByte < ByteCount) && (i < hexValuesSplit.Length - 3); i += 4)
+            {
+                MdbusFloat mdbusFloat = new MdbusFloat();
+                mdbusFloat.RawString = hexValuesSplit[i] + ' ' + hexValuesSplit[i + 1] + ' ' + hexValuesSplit[i + 2] + ' ' + hexValuesSplit[i + 3];
+                if (modiconFloat)
                 {
-                    MdbusFloat mdbusFloat = new MdbusFloat();
-                    mdbusFloat.RawString = hexValuesSplit[i] + ' ' + hexValuesSplit[i + 1] + ' ' + hexValuesSplit[i + 2] + ' ' + hexValuesSplit[i + 3];
-                    if (modiconFloat)
-                    {
-                        mdbusFloat.FloatString = (hexValuesSplit[i + 2] + hexValuesSplit[i + 3] + hexValuesSplit[i + 0] + hexValuesSplit[i + 1]);
-                    }
-                    else
-                    {
-                        mdbusFloat.FloatString = (hexValuesSplit[i + 0] + hexValuesSplit[i + 1] + hexValuesSplit[i + 2] + hexValuesSplit[i + 3]);
-                    }
-                    // Convert hex string to float value
-                    uint num = uint.Parse(mdbusFloat.FloatString, System.Globalization.NumberStyles.AllowHexSpecifier);
-
-                    byte[] floatVals = BitConverter.GetBytes(num);
-                    mdbusFloat.Value = BitConverter.ToSingle(floatVals, 0);
-
-                    FloatValues.Add(mdbusFloat);
+                    mdbusFloat.FloatString = (hexValuesSplit[i + 2] + hexValuesSplit[i + 3] + hexValuesSplit[i + 0] + hexValuesSplit[i + 1]);
                 }
+                else
+                {
+                    mdbusFloat.FloatString = (hexValuesSplit[i + 0] + hexValuesSplit[i + 1] + hexValuesSplit[i + 2] + hexValuesSplit[i + 3]);
+                }
+                // Convert hex string to float value
+                uint num = uint.Parse(mdbusFloat.FloatString, System.Globalization.NumberStyles.AllowHexSpecifier);
+
+                byte[] floatVals = BitConverter.GetBytes(num);
+                mdbusFloat.Value = BitConverter.ToSingle(floatVals, 0);
+
+                FloatValues.Add(mdbusFloat);
             }
         }
 
