@@ -97,6 +97,7 @@ namespace ModbusDecode
         /// </summary>
         /// <param name="message">Message string from Mdbus Monitor logging, starting with the Slave ID</param>
         /// <param name="modiconFloat">True if Modicon Float is used (the least significant bytes are sent in the first register and the most significant bytes in the second register of a pair)</param>
+        /// <param name="mode">Set the mode to Master or Slave. Used to distinguish between request and response when decoding</param>
         /// <example>
         /// 
         /// Example responses:
