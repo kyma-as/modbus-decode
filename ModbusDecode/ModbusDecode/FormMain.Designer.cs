@@ -94,7 +94,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(338, 26);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Please enter the Modbus communication string as hex values.\r\nEnter bytes seperate" +
+            this.label1.Text = "Please enter the Modbus communication string as hex values.\r\nEnter bytes separate" +
     "d with space, like: [RX] 01 04 0B B8 00 08 73 CD";
             // 
             // checkBoxModiconFormat
