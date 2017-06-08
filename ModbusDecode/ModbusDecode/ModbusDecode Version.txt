@@ -1,6 +1,7 @@
 ﻿2017-06-07 1.0.7.0
 - Add support for Function Code 1 (Read Coil Status) and 2 (Read Input Status)
 - Updated ReadMe text with a lot more examples
+- Add support for Integers (16-bit and 32-bit) in addition to floats
 
 2017-01-19 1.0.6.0
 - Rename "Version.txt" to "ModbusDecode Version.txt"

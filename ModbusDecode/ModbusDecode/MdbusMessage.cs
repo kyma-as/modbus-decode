@@ -23,6 +23,22 @@ namespace ModbusDecode
         }
     }
 
+    class MdbusInteger
+    {
+        public Int16 SignedValue { get; set; }
+        public UInt16 UnsignedValue { get; set; }
+        public string RawString { get; set; }
+        public string IntString { get; set; }
+    }
+
+    class MdbusLongInt
+    {
+        public Int32 SignedValue { get; set; }
+        public UInt32 UnsignedValue { get; set; }
+        public string RawString { get; set; }
+        public string IntString { get; set; }
+    }
+
     enum ModbusMessageMode
     {
         Slave,
@@ -41,11 +57,20 @@ namespace ModbusDecode
         Response
     }
 
+    enum ModbusDataType
+    {
+        Float,
+        Integer,
+        LongInt
+    }
+
     class MdbusMessage
     {
+        public bool UseModiconFormat { get; private set; }
         public ModbusMessageMode MessageMode { get; private set; }
         public ModbusMessageType MessageType { get; private set; }
         public ModbusMessageRole MessageRole { get; private set; }
+        public ModbusDataType DataType { get; private set; }
         public int SlaveId { get; private set; }
         public int FunctionCode { get; private set; }
         public int? StartAddress { get; private set; }
@@ -56,6 +81,8 @@ namespace ModbusDecode
         public string Checksum { get; set; }
         public List<int> Coils { get; private set; }
         public List<MdbusFloat> FloatValues { get; private set; }
+        public List<MdbusInteger> IntValues { get; private set; }
+        public List<MdbusLongInt> LongIntValues { get; private set; }
         public string OriginalMessageString { get; private set; }
         public bool ChecksumOk { get; private set; }
         public bool ModbusException { get; private set; }
@@ -73,6 +100,8 @@ namespace ModbusDecode
         {
             FloatValues = new List<MdbusFloat>();
             Coils = new List<int>();
+            IntValues = new List<MdbusInteger>();
+            LongIntValues = new List<MdbusLongInt>();
         }
 
         public static MdbusMessage Decode(string message)
@@ -80,15 +109,19 @@ namespace ModbusDecode
             return MdbusMessage.Decode(message, true, ModbusMessageMode.Slave);
         }
 
-        public static MdbusMessage Decode(string message, bool modiconFloat)
+        public static MdbusMessage Decode(string message, bool useModiconFormat)
         {
-            return MdbusMessage.Decode(message, modiconFloat, ModbusMessageMode.Slave);
+            return MdbusMessage.Decode(message, useModiconFormat, ModbusMessageMode.Slave);
         }
 
-        public static MdbusMessage Decode(string message, bool modiconFloat, ModbusMessageMode mode)
+        public static MdbusMessage Decode(string message, bool useModiconFormat, ModbusMessageMode mode)
+        {
+            return MdbusMessage.Decode(message, useModiconFormat, mode, ModbusDataType.Float);
+        }
+        public static MdbusMessage Decode(string message, bool useModiconFormat, ModbusMessageMode mode, ModbusDataType dataType)
         {
             MdbusMessage mdbusMessage = new MdbusMessage();
-            mdbusMessage.DecodeMessage(message, modiconFloat, mode);
+            mdbusMessage.DecodeMessage(message, useModiconFormat, mode, dataType);
             return mdbusMessage;
         }
 
@@ -96,7 +129,9 @@ namespace ModbusDecode
         /// Decodes a message string from Mdbus.exe (Calta Software)
         /// </summary>
         /// <param name="message">Message string from Mdbus Monitor logging, starting with the Slave ID</param>
-        /// <param name="modiconFloat">True if Modicon Float is used (the least significant bytes are sent in the first register and the most significant bytes in the second register of a pair)</param>
+        /// <param name="useModiconFormat">True if Modicon format for Float or LongInt are used (the least significant bytes are sent in the first register and the most significant bytes in the second register of a pair)</param>
+        /// <param name="mode">Set the mode to Master or Slave. Used to distinguish between request and response when decoding</param>
+        /// <param name="dataType">Set the data type to decode, either float, int or long int (default is float)</param>
         /// <example>
         /// 
         /// Example responses:
@@ -115,7 +150,7 @@ namespace ModbusDecode
         /// </example>
         /// <returns></returns>
         /// 
-        private void DecodeMessage(string message, bool modiconFloat, ModbusMessageMode mode)
+        private void DecodeMessage(string message, bool useModiconFormat, ModbusMessageMode mode, ModbusDataType dataType)
         {
             if (!message.Contains(' '))
             {
@@ -123,7 +158,9 @@ namespace ModbusDecode
                 throw new ArgumentException("Given message string does not contain spaces. Must use a valid string from Mdbus Monitor log");
             }
             OriginalMessageString = message;
+            UseModiconFormat = useModiconFormat;
             MessageMode = mode;
+            DataType = dataType;
             // Check if there are RX or TX in beginning
             MessageType = ModbusMessageType.Unknown;
             if (message.Trim().StartsWith("RX"))
@@ -174,7 +211,7 @@ namespace ModbusDecode
 
             
             int startByte = 0;
-            bool hasFloatValues = false;
+            bool hasDataValues = false;
             switch (FunctionCode)
             {
                 case 1:
@@ -199,7 +236,7 @@ namespace ModbusDecode
                     {
                         ByteCount = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 2, 1);
                         startByte = 3;
-                        hasFloatValues = true;
+                        hasDataValues = true;
                     }
                     else
                     {
@@ -215,7 +252,7 @@ namespace ModbusDecode
                     StartAddress = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 2, 2);
                     SingleRegisterValue = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 4, 2);                   
                     startByte = 6;
-                    hasFloatValues = true;
+                    hasDataValues = true;
                     break;
                 case 16:
                     // Request and response differs (we are slave):
@@ -228,7 +265,7 @@ namespace ModbusDecode
                     {
                         ByteCount = ModbusUtility.ConvertHexStringToInt(hexValuesSplit, 6, 1);
                         startByte = 7;
-                        hasFloatValues = true;
+                        hasDataValues = true;
                     }
                     break;
                 default:
@@ -247,29 +284,84 @@ namespace ModbusDecode
                 }
             }
 
-            if (hasFloatValues)
+            if (hasDataValues)
             {
-                // convert all float values from hex string
-                for (int i = startByte; (i - startByte < ByteCount) && (i < hexValuesSplit.Length - 3); i += 4)
+                switch (DataType)
                 {
-                    MdbusFloat mdbusFloat = new MdbusFloat();
-                    mdbusFloat.RawString = hexValuesSplit[i] + ' ' + hexValuesSplit[i + 1] + ' ' + hexValuesSplit[i + 2] + ' ' + hexValuesSplit[i + 3];
-                    if (modiconFloat)
-                    {
-                        mdbusFloat.FloatString = (hexValuesSplit[i + 2] + hexValuesSplit[i + 3] + hexValuesSplit[i + 0] + hexValuesSplit[i + 1]);
-                    }
-                    else
-                    {
-                        mdbusFloat.FloatString = (hexValuesSplit[i + 0] + hexValuesSplit[i + 1] + hexValuesSplit[i + 2] + hexValuesSplit[i + 3]);
-                    }
-                    // Convert hex string to float value
-                    uint num = uint.Parse(mdbusFloat.FloatString, System.Globalization.NumberStyles.AllowHexSpecifier);
-
-                    byte[] floatVals = BitConverter.GetBytes(num);
-                    mdbusFloat.Value = BitConverter.ToSingle(floatVals, 0);
-
-                    FloatValues.Add(mdbusFloat);
+                    case ModbusDataType.Float:
+                        // convert all float values from hex string
+                        ConvertDataToFloats(useModiconFormat, hexValuesSplit, startByte);
+                        break;
+                    case ModbusDataType.Integer:
+                        // convert all integer values from hex string
+                        ConvertDataToIntegers(hexValuesSplit, startByte);
+                        break;
+                    case ModbusDataType.LongInt:
+                        // convert all integer values from hex string
+                        ConvertDataToLongInts(useModiconFormat, hexValuesSplit, startByte);
+                        break;
+                    default:
+                        break;
                 }
+            }
+        }
+
+        private void ConvertDataToFloats(bool useModiconFormat, string[] hexValuesSplit, int startByte)
+        {
+            for (int i = startByte; (i - startByte < ByteCount) && (i < hexValuesSplit.Length - 3); i += 4)
+            {
+                MdbusFloat mdbusFloat = new MdbusFloat();
+                mdbusFloat.RawString = hexValuesSplit[i] + ' ' + hexValuesSplit[i + 1] + ' ' + hexValuesSplit[i + 2] + ' ' + hexValuesSplit[i + 3];
+                if (useModiconFormat)
+                {
+                    mdbusFloat.FloatString = (hexValuesSplit[i + 2] + hexValuesSplit[i + 3] + hexValuesSplit[i + 0] + hexValuesSplit[i + 1]);
+                }
+                else
+                {
+                    mdbusFloat.FloatString = (hexValuesSplit[i + 0] + hexValuesSplit[i + 1] + hexValuesSplit[i + 2] + hexValuesSplit[i + 3]);
+                }
+                // Convert hex string to float value
+                uint num = uint.Parse(mdbusFloat.FloatString, System.Globalization.NumberStyles.AllowHexSpecifier);
+
+                byte[] floatVals = BitConverter.GetBytes(num);
+                mdbusFloat.Value = BitConverter.ToSingle(floatVals, 0);
+
+                FloatValues.Add(mdbusFloat);
+            }
+        }
+
+        private void ConvertDataToIntegers(string[] hexValuesSplit, int startByte)
+        {
+            for (int i = startByte; (i - startByte < ByteCount) && (i < hexValuesSplit.Length - 1); i += 2)
+            {
+                MdbusInteger mdbusInt = new MdbusInteger();
+                mdbusInt.RawString = hexValuesSplit[i] + ' ' + hexValuesSplit[i + 1];
+                mdbusInt.IntString = (hexValuesSplit[i + 0] + hexValuesSplit[i + 1]);
+                // Convert hex string to both signed and unsigned 16-bit integer values
+                mdbusInt.SignedValue = Int16.Parse(mdbusInt.IntString, System.Globalization.NumberStyles.AllowHexSpecifier);
+                mdbusInt.UnsignedValue = UInt16.Parse(mdbusInt.IntString, System.Globalization.NumberStyles.AllowHexSpecifier);
+                IntValues.Add(mdbusInt);
+            }
+        }
+
+        private void ConvertDataToLongInts(bool useModiconFormat, string[] hexValuesSplit, int startByte)
+        {
+            for (int i = startByte; (i - startByte < ByteCount) && (i < hexValuesSplit.Length - 3); i += 4)
+            {
+                MdbusLongInt mdbusLongInt = new MdbusLongInt();
+                mdbusLongInt.RawString = hexValuesSplit[i] + ' ' + hexValuesSplit[i + 1] + ' ' + hexValuesSplit[i + 2] + ' ' + hexValuesSplit[i + 3];
+                if (useModiconFormat)
+                {
+                    mdbusLongInt.IntString = (hexValuesSplit[i + 2] + hexValuesSplit[i + 3] + hexValuesSplit[i + 0] + hexValuesSplit[i + 1]);
+                }
+                else
+                {
+                    mdbusLongInt.IntString = (hexValuesSplit[i + 0] + hexValuesSplit[i + 1] + hexValuesSplit[i + 2] + hexValuesSplit[i + 3]);
+                }
+                // Convert hex string to both signed and unsigned long (32-bit) integer values
+                mdbusLongInt.SignedValue = Int32.Parse(mdbusLongInt.IntString, System.Globalization.NumberStyles.AllowHexSpecifier);
+                mdbusLongInt.UnsignedValue = UInt32.Parse(mdbusLongInt.IntString, System.Globalization.NumberStyles.AllowHexSpecifier);
+                LongIntValues.Add(mdbusLongInt);
             }
         }
 
@@ -389,6 +481,10 @@ namespace ModbusDecode
             if (FloatValues.Count > 0)
             {
                 strBuilder.AppendFormat("Float Values ({0}):", FloatValues.Count).AppendLine();
+                if (UseModiconFormat)
+                {
+                    strBuilder.AppendLine("Using Modicon format!");
+                }
                 var lineNumber = 1;
                 var address = baseAddress + StartAddress;
                 foreach (var value in FloatValues)
@@ -402,6 +498,43 @@ namespace ModbusDecode
                     {
                         strBuilder.AppendLine(string.Format("{0,10:D3}: {1} -> {2} -> {3}", lineNumber++, value.RawString, value.FloatString, value.Value));
                     }
+                }
+            }
+
+            if (IntValues.Count > 0)
+            {
+                strBuilder.AppendFormat("Integer Values ({0}):", IntValues.Count).AppendLine();
+                var lineNumber = 1;
+                var address = baseAddress + StartAddress;
+                foreach (var value in IntValues)
+                {
+                    strBuilder.Append(string.Format("{0,10:D3}", lineNumber++));
+                    if (StartAddress.HasValue)
+                    {
+                        strBuilder.Append(string.Format(" {0:D5}", address));
+                        address += 1;
+                    }
+                    strBuilder.AppendLine(string.Format(": {0} -> {1} -> {2,5} or {3,6}", value.RawString, value.IntString, value.UnsignedValue, value.SignedValue));
+                }
+            }
+            if (LongIntValues.Count > 0)
+            {
+                strBuilder.AppendFormat("Long Integer Values ({0}):", LongIntValues.Count).AppendLine();
+                if (UseModiconFormat)
+                {
+                    strBuilder.AppendLine("Using Modicon format!");
+                }
+                var lineNumber = 1;
+                var address = baseAddress + StartAddress;
+                foreach (var value in LongIntValues)
+                {
+                    strBuilder.Append(string.Format("{0,10:D3}", lineNumber++));
+                    if (StartAddress.HasValue)
+                    {
+                        strBuilder.Append(string.Format(" {0:D5}", address));
+                        address += 2;
+                    }
+                    strBuilder.AppendLine(string.Format(": {0} -> {1} -> {2,10} or {3,11}", value.RawString, value.IntString, value.UnsignedValue, value.SignedValue));
                 }
             }
             return strBuilder.ToString();
