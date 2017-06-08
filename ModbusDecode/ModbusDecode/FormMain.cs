@@ -17,11 +17,6 @@ namespace ModbusDecode
             Text += String.Format(" - Version {0}", AboutBox.AssemblyVersion);
         }
 
-        private void checkBoxModiconFormat_CheckedChanged(object sender, EventArgs e)
-        {
-            Decode();
-        }
-        
         private void btnDecode_Click(object sender, EventArgs e)
         {
             Decode();

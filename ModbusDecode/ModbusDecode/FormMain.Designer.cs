@@ -107,9 +107,10 @@
             this.checkBoxModiconFormat.Size = new System.Drawing.Size(124, 17);
             this.checkBoxModiconFormat.TabIndex = 12;
             this.checkBoxModiconFormat.Text = "Use Modicon Format";
-            this.toolTip.SetToolTip(this.checkBoxModiconFormat, resources.GetString("checkBoxModiconFormat.ToolTip"));
+            this.toolTip.SetToolTip(this.checkBoxModiconFormat, "Check this if Modicon Float/LongInt format is used. \r\nThis means:\r\nThe least sign" +
+        "ificant bytes are sent in the first register \r\nand the most significant bytes in" +
+        " the second register.");
             this.checkBoxModiconFormat.UseVisualStyleBackColor = true;
-            this.checkBoxModiconFormat.CheckedChanged += new System.EventHandler(this.checkBoxModiconFormat_CheckedChanged);
             // 
             // resultBox
             // 
