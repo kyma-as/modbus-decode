@@ -49,6 +49,9 @@
             this.radioButtonLongInts = new System.Windows.Forms.RadioButton();
             this.groupBoxData = new System.Windows.Forms.GroupBox();
             this.groupBoxMode = new System.Windows.Forms.GroupBox();
+            this.listBoxCommands = new System.Windows.Forms.ListBox();
+            this.btnOpenFile = new System.Windows.Forms.Button();
+            this.lblCommands = new System.Windows.Forms.Label();
             this.groupBoxData.SuspendLayout();
             this.groupBoxMode.SuspendLayout();
             this.SuspendLayout();
@@ -59,7 +62,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtInput.Location = new System.Drawing.Point(12, 82);
             this.txtInput.Name = "txtInput";
-            this.txtInput.Size = new System.Drawing.Size(771, 20);
+            this.txtInput.Size = new System.Drawing.Size(938, 20);
             this.txtInput.TabIndex = 0;
             this.txtInput.Text = "RX 01 04 10 60 3A 46 33 69 89 44 57 33 CE 43 06 8B 59 3B 72 C4 8E ";
             // 
@@ -68,7 +71,7 @@
             this.btnDecode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(149)))), ((int)(((byte)(161)))));
             this.btnDecode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDecode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(24)))), ((int)(((byte)(68)))));
-            this.btnDecode.Location = new System.Drawing.Point(12, 108);
+            this.btnDecode.Location = new System.Drawing.Point(110, 108);
             this.btnDecode.Name = "btnDecode";
             this.btnDecode.Size = new System.Drawing.Size(92, 44);
             this.btnDecode.TabIndex = 1;
@@ -81,7 +84,7 @@
             // lblResult
             // 
             this.lblResult.AutoSize = true;
-            this.lblResult.Location = new System.Drawing.Point(12, 155);
+            this.lblResult.Location = new System.Drawing.Point(258, 155);
             this.lblResult.Name = "lblResult";
             this.lblResult.Size = new System.Drawing.Size(40, 13);
             this.lblResult.TabIndex = 2;
@@ -102,7 +105,7 @@
             this.checkBoxModiconFormat.AutoSize = true;
             this.checkBoxModiconFormat.Checked = true;
             this.checkBoxModiconFormat.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxModiconFormat.Location = new System.Drawing.Point(484, 123);
+            this.checkBoxModiconFormat.Location = new System.Drawing.Point(582, 123);
             this.checkBoxModiconFormat.Name = "checkBoxModiconFormat";
             this.checkBoxModiconFormat.Size = new System.Drawing.Size(124, 17);
             this.checkBoxModiconFormat.TabIndex = 12;
@@ -118,16 +121,16 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.resultBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.resultBox.Location = new System.Drawing.Point(12, 171);
+            this.resultBox.Location = new System.Drawing.Point(261, 171);
             this.resultBox.Name = "resultBox";
-            this.resultBox.Size = new System.Drawing.Size(771, 363);
+            this.resultBox.Size = new System.Drawing.Size(689, 354);
             this.resultBox.TabIndex = 15;
             this.resultBox.Text = "";
             // 
             // buttonClear
             // 
             this.buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonClear.Location = new System.Drawing.Point(645, 540);
+            this.buttonClear.Location = new System.Drawing.Point(812, 540);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(138, 23);
             this.buttonClear.TabIndex = 16;
@@ -139,7 +142,7 @@
             // 
             this.buttonAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonAbout.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAbout.BackgroundImage")));
-            this.buttonAbout.Location = new System.Drawing.Point(706, 12);
+            this.buttonAbout.Location = new System.Drawing.Point(873, 12);
             this.buttonAbout.Name = "buttonAbout";
             this.buttonAbout.Size = new System.Drawing.Size(77, 64);
             this.buttonAbout.TabIndex = 17;
@@ -242,7 +245,7 @@
             this.groupBoxData.Controls.Add(this.radioButtonLongInts);
             this.groupBoxData.Controls.Add(this.radioButtonFloats);
             this.groupBoxData.Controls.Add(this.radioButtonInts);
-            this.groupBoxData.Location = new System.Drawing.Point(261, 108);
+            this.groupBoxData.Location = new System.Drawing.Point(359, 108);
             this.groupBoxData.Name = "groupBoxData";
             this.groupBoxData.Size = new System.Drawing.Size(217, 44);
             this.groupBoxData.TabIndex = 26;
@@ -253,18 +256,73 @@
             // 
             this.groupBoxMode.Controls.Add(this.radioButtonMaster);
             this.groupBoxMode.Controls.Add(this.radioButtonSlave);
-            this.groupBoxMode.Location = new System.Drawing.Point(110, 108);
+            this.groupBoxMode.Location = new System.Drawing.Point(208, 108);
             this.groupBoxMode.Name = "groupBoxMode";
             this.groupBoxMode.Size = new System.Drawing.Size(145, 44);
             this.groupBoxMode.TabIndex = 27;
             this.groupBoxMode.TabStop = false;
             this.groupBoxMode.Text = "Mode";
             // 
+            // listBoxCommands
+            // 
+            this.listBoxCommands.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.listBoxCommands.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listBoxCommands.FormattingEnabled = true;
+            this.listBoxCommands.ItemHeight = 14;
+            this.listBoxCommands.Items.AddRange(new object[] {
+            "No mdbus.LOG file found :(",
+            "",
+            "Start logging from mdbus",
+            "Monitor window to create one!",
+            "",
+            "Drag a file onto here to open it!",
+            "",
+            "Click on a line to show the ",
+            "Modbus command",
+            "",
+            "Double-click a line to show it ",
+            "and decode it!"});
+            this.listBoxCommands.Location = new System.Drawing.Point(12, 171);
+            this.listBoxCommands.Name = "listBoxCommands";
+            this.listBoxCommands.Size = new System.Drawing.Size(243, 354);
+            this.listBoxCommands.TabIndex = 28;
+            this.toolTip.SetToolTip(this.listBoxCommands, resources.GetString("listBoxCommands.ToolTip"));
+            this.listBoxCommands.SelectedIndexChanged += new System.EventHandler(this.listBoxCommands_SelectedIndexChanged);
+            this.listBoxCommands.DoubleClick += new System.EventHandler(this.listBoxCommands_DoubleClick);
+            // 
+            // btnOpenFile
+            // 
+            this.btnOpenFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(149)))), ((int)(((byte)(161)))));
+            this.btnOpenFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOpenFile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(24)))), ((int)(((byte)(68)))));
+            this.btnOpenFile.Location = new System.Drawing.Point(12, 108);
+            this.btnOpenFile.Name = "btnOpenFile";
+            this.btnOpenFile.Size = new System.Drawing.Size(92, 44);
+            this.btnOpenFile.TabIndex = 29;
+            this.btnOpenFile.Text = "Open File";
+            this.toolTip.SetToolTip(this.btnOpenFile, "Open a mdbus.LOG file for decoding multiple Modbus\r\nmessages.");
+            this.btnOpenFile.UseVisualStyleBackColor = false;
+            this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
+            // 
+            // lblCommands
+            // 
+            this.lblCommands.AutoSize = true;
+            this.lblCommands.Location = new System.Drawing.Point(12, 155);
+            this.lblCommands.Name = "lblCommands";
+            this.lblCommands.Size = new System.Drawing.Size(62, 13);
+            this.lblCommands.TabIndex = 30;
+            this.lblCommands.Text = "Commands:";
+            // 
             // MainForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(795, 575);
+            this.ClientSize = new System.Drawing.Size(962, 575);
+            this.Controls.Add(this.lblCommands);
+            this.Controls.Add(this.btnOpenFile);
+            this.Controls.Add(this.listBoxCommands);
             this.Controls.Add(this.groupBoxMode);
             this.Controls.Add(this.groupBoxData);
             this.Controls.Add(this.buttonErrorCodes);
@@ -283,6 +341,8 @@
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Modbus Decoder";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
             this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.MainForm_HelpRequested);
             this.groupBoxData.ResumeLayout(false);
             this.groupBoxData.PerformLayout();
@@ -314,6 +374,9 @@
         private System.Windows.Forms.RadioButton radioButtonLongInts;
         private System.Windows.Forms.GroupBox groupBoxData;
         private System.Windows.Forms.GroupBox groupBoxMode;
+        private System.Windows.Forms.ListBox listBoxCommands;
+        private System.Windows.Forms.Button btnOpenFile;
+        private System.Windows.Forms.Label lblCommands;
     }
 }
 

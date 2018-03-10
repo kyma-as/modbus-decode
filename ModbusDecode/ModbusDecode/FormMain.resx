@@ -120,9 +120,6 @@
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="buttonAbout.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -159,6 +156,9 @@
         YSTk4OeJNXFcm18IjjK//9k=
 </value>
   </data>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="radioButtonSlave.ToolTip" xml:space="preserve">
     <value>This is used to determine if a transmitted (TX) or received
 (RX) message is a request or a respons. This is needed to 
@@ -175,6 +175,19 @@ decode the Modbus message properly
 A Master that transmitts (TX) is requesting
 A Master receives (RX) a response</value>
   </data>
+  <data name="listBoxCommands.ToolTip" xml:space="preserve">
+    <value>Will show a list of Modbus messages (requestes and repiles)
+from a mdbus.LOG file.
+
+Drag a file onto here to open it!
+
+Click on a line to show the command.
+
+Double-click a line to show it and decode it!</value>
+  </data>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>37</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAgAAAAAAAEAIADVLwAAhgAAAICAAAABACAAKAgBAFswAABAQAAAAQAgAChCAACDOAEAMDAAAAEA
