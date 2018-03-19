@@ -15,6 +15,11 @@ namespace ModbusDecode
         {
             InitializeComponent();
             Text += String.Format(" - Version {0}", AboutBox.AssemblyVersion);
+
+            if (System.IO.File.Exists("Mdbus.LOG"))
+            {
+                AddFileToListBox("Mdbus.LOG");
+            }
         }
 
         private void btnDecode_Click(object sender, EventArgs e)
@@ -92,5 +97,76 @@ namespace ModbusDecode
             RequestHelp(HelpTabs.ErrorCodes);
         }
 
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+                string firstFile = files[0];
+                AddFileToListBox(firstFile);
+            }
+        }
+
+        private void AddFileToListBox(string mdbusLogFile)
+        {
+            var mdbusFile = MdbusFile.CreateFromFile(mdbusLogFile);
+            listBoxCommands.Items.Clear();
+            listBoxCommands.Items.AddRange(mdbusFile.GetAllCommands());
+            // Display a shortened version of the file path above the list box
+            // Found the solution here:
+            // https://stackoverflow.com/questions/1764204/how-to-display-abbreviated-path-names-in-net
+            // Thing to notice is that we have to make a copy of the string as the TextRenderer.MeasureText
+            // actually changes the string even if .Net strings are immutable.
+            var shortenFileName = string.Copy(mdbusLogFile);
+            var size = new Size(listBoxCommands.Width, 0);
+            TextRenderer.MeasureText(shortenFileName, lblCommands.Font, size, TextFormatFlags.PathEllipsis | TextFormatFlags.ModifyString);
+            lblCommands.Text = shortenFileName;
+        }
+
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void ShowListBoxItem(object listboxItem, bool decode)
+        {
+            if ((listboxItem != null) && (listboxItem is MdbusCommand))
+            {
+                var mdbusCommand = (MdbusCommand)listboxItem;
+                txtInput.Text = mdbusCommand.Message;
+                if (decode)
+                {
+                    Decode();
+                }
+            }
+        }
+
+        private void listBoxCommands_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowListBoxItem(listBoxCommands.SelectedItem, decode: false);
+        }
+
+
+        private void listBoxCommands_DoubleClick(object sender, EventArgs e)
+        {
+            ShowListBoxItem(listBoxCommands.SelectedItem, decode: true);
+        }
+
+        private void btnOpenFile_Click(object sender, EventArgs e)
+        {
+            var fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "Mdbus log files (Mdbus*.LOG)|Mdbus*.LOG|All log files (*.log)|*.log|Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                AddFileToListBox(fileDialog.FileName);
+            }
+        }
     }
 }

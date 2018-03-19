@@ -70,6 +70,7 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="MdbusFile.cs" />
     <Compile Include="ModbusUtility.cs" />
     <Compile Include="MdbusMessage.cs" />
     <Compile Include="FormMain.cs">
@@ -143,7 +144,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>call copy "$(ProjectDir)ModbusDecode ReadMe.txt" "$(TargetDir)"
-call copy "$(ProjectDir)Version.txt" "$(TargetDir)"
+call copy "$(ProjectDir)ModbusDecode Version.txt" "$(TargetDir)"
 call copy "$(ProjectDir)ModbusErrorCodes.txt" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

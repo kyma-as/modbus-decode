@@ -1,6 +1,5 @@
 ﻿Work To Do:
 
-- Option to import (drag-drop) whole file
 - Option to paste multiple lines
 - Auto-detect Modicon float ?? (if abs float value is less than 1e-10 ??)
  

@@ -1,4 +1,9 @@
-﻿2017-06-07 1.0.7.0
+﻿2018-03-10 1.1.8.0
+- Add support for opening a whole Mdbus LOG file, either by drag-and-drop or opening using file dialog
+  All lines (or commands) in the file will be listed in a listbox. Click on a line to show the command,
+  or double-click a line to show it and decode it.
+
+2017-06-07 1.0.7.0
 - Add support for Function Code 1 (Read Coil Status) and 2 (Read Input Status)
 - Updated ReadMe text with a lot more examples
 - Add support for Integers (16-bit and 32-bit) in addition to floats
