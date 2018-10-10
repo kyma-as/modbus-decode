@@ -1,5 +1,6 @@
 ﻿Work To Do:
 
-- Option to paste multiple lines
 - Auto-detect Modicon float ?? (if abs float value is less than 1e-10 ??)
+- Auto-detect Master/Slave ??  (if RX 01 10 - write Multiple Register => We are Slave
+- Mark bad checksum (B) commands with red color for easier detection
  
